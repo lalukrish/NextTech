@@ -1,16 +1,13 @@
+import React from 'react';
 import { Helmet } from 'react-helmet-async';
-// @mui
 import { styled } from '@mui/material/styles';
 import { Link, Container, Typography, Divider, Stack, Button } from '@mui/material';
-// hooks
+
 import useResponsive from '../hooks/useResponsive';
-// components
 import Logo from '../components/logo';
 import Iconify from '../components/iconify';
-// sections
 import { LoginForm } from '../sections/auth/login';
-
-// ----------------------------------------------------------------------
+import SingupForm from '../sections/auth/singup/singupForm';
 
 const StyledRoot = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
@@ -38,17 +35,14 @@ const StyledContent = styled('div')(({ theme }) => ({
   padding: theme.spacing(12, 0),
 }));
 
-// ----------------------------------------------------------------------
-
-export default function LoginPage() {
+export default function SingupPage() {
   const mdUp = useResponsive('up', 'md');
 
   return (
-    <div>
+    <>
       <Helmet>
-        <title> Login </title>
+        <title> Signup</title>
       </Helmet>
-
       <StyledRoot>
         <Logo
           sx={{
@@ -57,47 +51,35 @@ export default function LoginPage() {
             left: { xs: 16, sm: 24, md: 40 },
           }}
         />
-
         {mdUp && (
-          <StyledSection sx={{ backgroundColor: 'black' }}>
+          <StyledSection>
             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-              Hi, Welcome Back
+              Stop Wasting Time !! <>Explore Technology</>
             </Typography>
-            <img src="/assets/illustrations/illustration_login.png" alt="login" />
+
+            <img
+              src="https://images.unsplash.com/photo-1496065187959-7f07b8353c55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+              alt="login"
+            />
           </StyledSection>
         )}
-
         <Container maxWidth="sm">
           <StyledContent>
             <Typography variant="h4" gutterBottom>
-              Sign in to NextTech
+              Signup in to NextTech
             </Typography>
 
             <Typography variant="body2" sx={{ mb: 5 }}>
-              Don’t have an account? {''}
-              <Link href="signup" variant="subtitle2">
+              you already have an account.? {''}
+              <Link href="login" variant="subtitle2">
                 Get started
               </Link>
             </Typography>
 
-            {/* <Stack direction="row" spacing={2}>
-              <Button fullWidth size="large" color="inherit" variant="outlined">
-                <Iconify icon="eva:google-fill" color="#DF3E30" width={22} height={22} />
-              </Button>
-
-              <Button fullWidth size="large" color="inherit" variant="outlined">
-                <Iconify icon="eva:facebook-fill" color="#1877F2" width={22} height={22} />
-              </Button>
-
-              <Button fullWidth size="large" color="inherit" variant="outlined">
-                <Iconify icon="eva:twitter-fill" color="#1C9CEA" width={22} height={22} />
-              </Button>
-            </Stack> */}
-
-            <LoginForm />
+            <SingupForm />
           </StyledContent>
         </Container>
       </StyledRoot>
-    </div>
+    </>
   );
 }
