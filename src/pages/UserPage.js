@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // @mui
 import {
   Card,
@@ -22,10 +22,14 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
+import { useDispatch } from 'react-redux';
+
 // components
 import Label from '../components/label';
 import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
+import { userProfile } from '../redux/slices/userProfileSlice';
+
 // sections
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 // mock
