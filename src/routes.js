@@ -10,6 +10,7 @@ import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
 import SingupPage from './pages/SingupPage';
+import Settings from './pages/Settings';
 
 // ----------------------------------------------------------------------
 
@@ -26,6 +27,7 @@ export default function Router() {
         { path: 'blog', element: <BlogPage /> },
       ],
     },
+    { path: 'settings', element: <Settings /> },
     {
       path: 'login',
       element: <LoginPage />,

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Link, Stack, IconButton, InputAdornment, TextField, Checkbox } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { Formik } from 'formik';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 // components
 import Iconify from '../../../components/iconify';
@@ -25,12 +25,22 @@ export default function LoginForm() {
     password: '',
   };
 
+  const singinResponseId = useSelector((state) => state?.signin?.successMessage?.user?._id);
+  console.log('res', singinResponseId);
+  localStorage.setItem('USER_ID', singinResponseId);
+
+  const singinResponseMessage = useSelector((state) => state?.signin?.successMessage?.message);
+  console.log('res', singinResponseMessage);
+
   const Login = (values) => {
     setUserData(values);
     dispatch(UserSignin(values)).then((response) => {
-      const data = response.message;
-      console.log(data);
-      navigate('/dashboard/app');
+      const data = response;
+      const resMessage = data.payload.data.message;
+      console.log('data', data);
+      if (resMessage === 'Login successfull') {
+        navigate('/dashboard/app/');
+      }
     });
   };
 
@@ -43,6 +53,7 @@ export default function LoginForm() {
               <TextField name="email" placeholder="Email/Username" onChange={handleChange} value={values.formik} />
 
               <TextField
+                required
                 name="password"
                 placeholder="Password"
                 type={showPassword ? 'text' : 'password'}

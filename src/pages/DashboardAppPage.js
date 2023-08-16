@@ -1,5 +1,8 @@
 import { Helmet } from 'react-helmet-async';
 import { faker } from '@faker-js/faker';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
@@ -17,10 +20,21 @@ import {
   AppCurrentSubject,
   AppConversionRates,
 } from '../sections/@dashboard/app';
+import { userProfile } from '../redux/slices/userProfileSlice';
 
 // ----------------------------------------------------------------------
 
 export default function DashboardAppPage() {
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   dispatch(userProfile()).then((response) => {
+  //     console.log('hi', response);
+  //   });
+  // }, []);
+
+  // const userName = useSelector((state) => state.myprofile?.successMessage?.data?.user?.full_name);
+  // console.log('userProfileDetails', userName);
   const theme = useTheme();
 
   return (

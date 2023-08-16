@@ -4,6 +4,8 @@ import { useLocation } from 'react-router-dom';
 // @mui
 import { styled, alpha } from '@mui/material/styles';
 import { Box, Link, Button, Drawer, Typography, Avatar, Stack } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+
 // mock
 import account from '../../../_mock/account';
 // hooks
@@ -12,6 +14,8 @@ import useResponsive from '../../../hooks/useResponsive';
 import Logo from '../../../components/logo';
 import Scrollbar from '../../../components/scrollbar';
 import NavSection from '../../../components/nav-section';
+import { userProfile } from '../../../redux/slices/userProfileSlice';
+
 //
 import navConfig from './config';
 
@@ -35,6 +39,16 @@ Nav.propTypes = {
 };
 
 export default function Nav({ openNav, onCloseNav }) {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(userProfile()).then((response) => {
+      console.log('hi', response);
+    });
+  }, []);
+
+  const userName = useSelector((state) => state.myprofile?.successMessage?.data?.user?.full_name);
+  console.log('userProfileDetails', userName);
   const { pathname } = useLocation();
 
   const isDesktop = useResponsive('up', 'lg');
@@ -58,21 +72,20 @@ export default function Nav({ openNav, onCloseNav }) {
       </Box>
 
       <Box sx={{ mb: 5, mx: 2.5 }}>
-        <Link underline="none">
-          <StyledAccount>
+        <StyledAccount>
+          <a href="/settings">
             <Avatar src={account.photoURL} alt="photoURL" />
+          </a>
+          <Box sx={{ ml: 2 }}>
+            <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
+              {userName}
+            </Typography>
 
-            <Box sx={{ ml: 2 }}>
-              <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {account.displayName}
-              </Typography>
-
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {account.role}
-              </Typography>
-            </Box>
-          </StyledAccount>
-        </Link>
+            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+              {/* {account.role} */}
+            </Typography>
+          </Box>
+        </StyledAccount>
       </Box>
 
       <NavSection data={navConfig} />
