@@ -1,0 +1,54 @@
+import { TextField, Button, Grid } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { useFormik } from 'formik';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { userProfile } from '../../redux/slices/userProfileSlice';
+
+const EditProfile = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(userProfile()).then((response) => {
+      console.log('hi', response);
+    });
+  }, []);
+
+  const userData = useSelector((state) => state.myprofile?.successMessage?.data?.user);
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      full_name: userData ? userData?.full_name : '', // Use userData.full_name if available, otherwise use an empty string
+    },
+    // ...
+  });
+
+  return (
+    <>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <TextField
+            placeholder="Full Name"
+            name="full_name"
+            fullWidth
+            onChange={formik.handleChange}
+            value={formik.values ? formik.values.full_name : ''}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField placeholder="Email" name="email" fullWidth />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField placeholder="User Name" name="user_name" fullWidth />
+        </Grid>
+        <Grid item xs={12}>
+          <Button variant="contained" color="primary" fullWidth sx={{ height: '50px' }}>
+            Save Changes
+          </Button>
+        </Grid>
+      </Grid>
+    </>
+  );
+};
+
+export default EditProfile;
