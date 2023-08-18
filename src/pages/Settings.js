@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { styled } from '@mui/material/styles';
-import { Link, Container, Typography, Button, Divider, Stack } from '@mui/material';
+import { Link, Container, Typography, Button, Divider, Stack, Card } from '@mui/material';
 import Logo from '../components/logo';
-import EditProfileForm from './EditProfile'; // Assuming you have these components
-import ChangePasswordForm from './ChangePassword';
-
+import EditProfileForm from '../components/settings/EditProfile'; // Assuming you have these components
+import ChangePasswordForm from '../components/settings/ChangePassword';
 
 const StyledRoot = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
@@ -27,13 +26,14 @@ const StyledSection = styled('div')(({ theme }) => ({
 }));
 
 const StyledContent = styled('div')(({ theme }) => ({
-  maxWidth: 480,
+  maxWidth: 500,
   margin: 'auto',
   minHeight: '100vh',
   display: 'flex',
-  justifyContent: 'center',
+  //  justifyContent: 'center',
   flexDirection: 'column',
-  padding: theme.spacing(12, 0),
+  padding: theme.spacing(10, 0), // Adjust the top and bottom padding
+  marginTop: theme.spacing(-4), // Move the content slightly up
 }));
 
 const StyledButton = styled(Button)(({ theme }) => ({
@@ -51,46 +51,33 @@ export default function Settings() {
         <title>Settings</title>
       </Helmet>
 
-      <StyledRoot>
-        <Logo
-          sx={{
-            position: 'fixed',
-            top: { xs: 16, sm: 24, md: 40 },
-            left: { xs: 16, sm: 24, md: 40 },
-          }}
-        />
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+        <Card sx={{ width: '1100px', height: '600px', marginBottom: '20px' }}>
+          <Container maxWidth="sm" sx={{ marginBottom: '20px' }}>
+            <StyledContent>
+              <Typography variant="h4" gutterBottom>
+                Account Settings
+              </Typography>
 
-        <Container maxWidth="sm">
-          <StyledContent>
-            <Typography variant="h4" gutterBottom>
-              Account Settings
-            </Typography>
+              {/* Edit Profile Section */}
+              <StyledSection sx={{ mt: '8px' }}>
+                <EditProfileForm />
+              </StyledSection>
 
-            {/* Edit Profile Section */}
-            <StyledSection>
-              <Typography variant="h6">Edit Profile</Typography>
-              <EditProfileForm />
+              <Divider sx={{ my: 4 }} />
 
-
-              
-              <StyledButton variant="contained" color="primary">
-                Save Changes
-              </StyledButton>
-            </StyledSection>
-
-            <Divider sx={{ my: 4 }} />
-
-            {/* Change Password Section */}
-            <StyledSection>
-              <Typography variant="h6">Change Password</Typography>
-              <ChangePasswordForm />
-              <StyledButton variant="contained" color="secondary">
-                Change Password
-              </StyledButton>
-            </StyledSection>
-          </StyledContent>
-        </Container>
-      </StyledRoot>
+              {/* Change Password Section */}
+              <StyledSection>
+                <Typography variant="h6">Change Password</Typography>
+                <ChangePasswordForm />
+                <StyledButton variant="contained" color="secondary">
+                  Change Password
+                </StyledButton>
+              </StyledSection>
+            </StyledContent>
+          </Container>
+        </Card>
+      </div>
     </div>
   );
 }

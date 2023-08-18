@@ -1,7 +1,8 @@
 // Assuming you have a valid Redux store set up in './redux/store/store'
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import ReactDOM from 'react-dom';
+
 import { createRoot } from 'react-dom/client';
 // import dotenv from 'dotenv';
 
@@ -20,3 +21,4 @@ const rootElement = (
 );
 const rootContainer = createRoot(root);
 rootContainer.render(rootElement);
+
