@@ -70,6 +70,9 @@ export default function Settings() {
             <StyledSection>
               <Typography variant="h6">Edit Profile</Typography>
               <EditProfileForm />
+
+
+              
               <StyledButton variant="contained" color="primary">
                 Save Changes
               </StyledButton>
