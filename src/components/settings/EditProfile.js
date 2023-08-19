@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { userProfile } from '../../redux/slices/userProfileSlice';
+import AccountPopover from '../../layouts/dashboard/header/AccountPopover';
 
 // ... (imports and other code)
 
@@ -17,6 +18,7 @@ const EditProfile = () => {
 
   const userData = useSelector((state) => state.myprofile?.successMessage?.data?.user);
 
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -29,6 +31,7 @@ const EditProfile = () => {
 
   return (
     <>
+    <AccountPopover userData={userData} />
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField

@@ -4,6 +4,7 @@ import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
 // mocks_
 import { userProfile } from '../../../redux/slices/userProfileSlice';
+import account from '../../../_mock/account';
 // ----------------------------------------------------------------------
 
 
@@ -24,7 +25,17 @@ const MENU_OPTIONS = [
 
 // ----------------------------------------------------------------------
 
-export default function AccountPopover() {
+export default function AccountPopover(props) {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(userProfile()).then((response) => {
+      console.log('hi', response);
+    });
+  }, []);
+
+  const userData = useSelector((state) => state.myprofile?.successMessage?.data?.user);
+
+const [myprofileData,setMyProfileData]=useState(userData)
   const [open, setOpen] = useState(null);
 
   const handleOpen = (event) => {
