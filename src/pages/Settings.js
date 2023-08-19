@@ -52,15 +52,17 @@ export default function Settings() {
         <title>Settings</title>
       </Helmet>
 
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-        <Card sx={{ width: '1100px', height: '600px', marginBottom: '20px' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '1vh' }}>
+        <Card sx={{ width: '900px', height: '600px', marginBottom: '20px' }}>
           <Container maxWidth="sm" sx={{ marginBottom: '20px' }}>
             <a href="/dashboard/app">
-              <ArrowBackIosNewIcon sx={{ padding: '2px' }} />
+            
+              <ArrowBackIosNewIcon sx={{ position: 'absolute', top: '10%', left: 190, transform: 'translateY(-50%)', padding: '2px' }} />
+
             </a>
             <StyledContent>
               <Typography variant="h4" gutterBottom>
-                Account Settings
+                <center>Account Settings</center>
               </Typography>
 
               {/* Edit Profile Section */}
