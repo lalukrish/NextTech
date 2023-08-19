@@ -27,14 +27,14 @@ import { userProfile } from '../redux/slices/userProfileSlice';
 export default function DashboardAppPage() {
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch(userProfile()).then((response) => {
-  //     console.log('hi', response);
-  //   });
-  // }, []);
+  useEffect(() => {
+    dispatch(userProfile()).then((response) => {
+      console.log('hi', response);
+    });
+  }, []);
 
-  // const userName = useSelector((state) => state.myprofile?.successMessage?.data?.user?.full_name);
-  // console.log('userProfileDetails', userName);
+  const userName = useSelector((state) => state.myprofile?.successMessage?.data?.user?.full_name);
+  console.log('userProfileDetailshi', userName);
   const theme = useTheme();
 
   return (

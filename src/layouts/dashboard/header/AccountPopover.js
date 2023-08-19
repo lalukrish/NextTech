@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+import { useDispatch, useSelector } from 'react-redux';
 // @mui
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
 // mocks_
 import { userProfile } from '../../../redux/slices/userProfileSlice';
 // ----------------------------------------------------------------------
-
 
 const MENU_OPTIONS = [
   {
@@ -25,6 +26,17 @@ const MENU_OPTIONS = [
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(userProfile()).then((response) => {
+      console.log('hi', response);
+    });
+  }, []);
+
+  const userName = useSelector((state) => state.myprofile?.successMessage?.data?.user?.full_name);
+  const userEmail = useSelector((state) => state.myprofile?.successMessage?.data?.user?.email);
+  console.log('userProfileDetails', userName);
+
   const [open, setOpen] = useState(null);
 
   const handleOpen = (event) => {
@@ -54,7 +66,7 @@ export default function AccountPopover() {
           }),
         }}
       >
-        <Avatar src={account.photoURL} alt="photoURL" />
+        <Avatar src="https://www.trickscity.com/wp-content/uploads/2018/02/dasing-boys-dp.jpg" alt="photoURL" />
       </IconButton>
 
       <Popover
@@ -78,10 +90,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            {userName}{' '}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {userEmail}
           </Typography>
         </Box>
 

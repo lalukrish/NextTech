@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { styled } from '@mui/material/styles';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { Link, Container, Typography, Button, Divider, Stack, Card } from '@mui/material';
 import Logo from '../components/logo';
 import EditProfileForm from '../components/settings/EditProfile'; // Assuming you have these components
@@ -54,6 +55,9 @@ export default function Settings() {
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
         <Card sx={{ width: '1100px', height: '600px', marginBottom: '20px' }}>
           <Container maxWidth="sm" sx={{ marginBottom: '20px' }}>
+            <a href="/dashboard/app">
+              <ArrowBackIosNewIcon sx={{ padding: '2px' }} />
+            </a>
             <StyledContent>
               <Typography variant="h4" gutterBottom>
                 Account Settings
