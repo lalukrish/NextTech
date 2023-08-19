@@ -1,6 +1,7 @@
 import { TextField, Button, Grid } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
+import axios from 'axios';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { userProfile } from '../../redux/slices/userProfileSlice';
@@ -18,6 +19,28 @@ const EditProfile = () => {
 
   const userData = useSelector((state) => state.myprofile?.successMessage?.data?.user);
 
+  const updateProfile = async (formikValues) => {
+    console.log('submit');
+    const id = localStorage.getItem('USER_ID');
+
+    const response = await axios.put(
+      `${process.env.REACT_APP_NEXTTECH_DEV_URL}/edit-profile
+        `,
+      {
+        id,
+        full_name: formikValues.full_name,
+      },
+      {
+        headers: {
+          accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    console.log('res');
+
+    return response;
+  };
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -26,12 +49,18 @@ const EditProfile = () => {
       email: userData ? userData.email : '',
       user_name: userData ? userData.user_name : '', // Add this line for email
     },
-    // ...
+    onSubmit: async () => {
+      console.log('submit');
+
+      updateProfile(formik.values).then((response) => {
+        console.log('hi', response);
+      });
+    },
   });
+  console.log('hi');
 
   return (
-    <>
-    <AccountPopover userData={userData} />
+    <form onSubmit={formik.handleSubmit}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
@@ -49,6 +78,7 @@ const EditProfile = () => {
             fullWidth
             onChange={formik.handleChange}
             value={formik.values ? formik.values.email : ''}
+            disabled
           />
         </Grid>
         <Grid item xs={12}>
@@ -58,16 +88,17 @@ const EditProfile = () => {
             fullWidth
             onChange={formik.handleChange}
             value={formik.values ? formik.values.user_name : ''}
+            disabled
           />
         </Grid>
         {/* ... Other fields */}
         <Grid item xs={12}>
-          <Button variant="contained" color="primary" fullWidth sx={{ height: '50px' }}>
+          <Button variant="contained" color="primary" fullWidth sx={{ height: '50px' }} type="submit">
             Save Changes
           </Button>
         </Grid>
       </Grid>
-    </>
+    </form>
   );
 };
 
