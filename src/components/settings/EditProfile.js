@@ -1,4 +1,4 @@
-import { TextField, Button, Grid, Select, MenuItem} from '@mui/material';
+import { TextField, Button, Grid, Select, MenuItem } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import axios from 'axios';
@@ -47,7 +47,7 @@ const EditProfile = () => {
     initialValues: {
       full_name: userData ? userData.full_name : '',
       email: userData ? userData.email : '',
-      user_name: userData ? userData.user_name : '', 
+      user_name: userData ? userData.user_name : '',
     },
     onSubmit: async () => {
       console.log('submit');
@@ -92,30 +92,30 @@ const EditProfile = () => {
           />
         </Grid>
 
-        <Grid container spacing={2}>
-  <Grid item xs={3}> 
-  
-    <Select
-      name="country_code"
-      value={formik.values ? formik.values.country_code : ''}
-      onChange={formik.handleChange}
-      fullWidth
-    >
-      <MenuItem value="+91">+1 (INDIA)</MenuItem>
-      <MenuItem value="+44">+44 (UK)</MenuItem>
-      
-    </Select>
-  </Grid>
-  <Grid item xs={9}> 
-    <TextField
-      placeholder="Phone Number"
-      name="phone_number"
-      fullWidth
-      onChange={formik.handleChange}
-      value={formik.values ? formik.values.phone_number : ''}
-    />
-  </Grid>
-</Grid>
+        
+          <Grid item xs={3}>
+
+            <Select
+              name="country_code"
+              value={formik.values ? formik.values.country_code : ''}
+              onChange={formik.handleChange}
+              fullWidth
+            >
+              <MenuItem value="+91">+1 (INDIA)</MenuItem>
+              <MenuItem value="+44">+44 (UK)</MenuItem>
+
+            </Select>
+          </Grid>
+          <Grid item xs={9}>
+            <TextField
+              placeholder="Phone Number"
+              name="phone_number"
+              fullWidth
+              onChange={formik.handleChange}
+              value={formik.values ? formik.values.phone_number : ''}
+            />
+          </Grid>
+        </Grid>
 
         {/* ... Other fields */}
         <Grid item xs={12}>
@@ -123,7 +123,7 @@ const EditProfile = () => {
             Save Changes
           </Button>
         </Grid>
-      </Grid>
+      
     </form>
   );
 };
