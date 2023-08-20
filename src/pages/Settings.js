@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { styled } from '@mui/material/styles';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import { Link, Container, Typography, Button, Divider, Stack, Card } from '@mui/material';
+import { Link, Container, Typography, Button, Divider, Stack, Card, Grid } from '@mui/material';
 import Logo from '../components/logo';
 import EditProfileForm from '../components/settings/EditProfile'; // Assuming you have these components
 import ChangePasswordForm from '../components/settings/ChangePassword';
+import EditProfilePicture from '../components/settings/Edit-Profile-Picture';
 
 const StyledRoot = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
@@ -53,33 +54,29 @@ export default function Settings() {
       </Helmet>
 
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '1vh' }}>
-        <Card sx={{ width: '900px', height: '600px', marginBottom: '20px' }}>
-          <Container maxWidth="sm" sx={{ marginBottom: '20px' }}>
+        <Card sx={{ width: '1150px', height: '600px', mt: '1px' }}>
+          <Container maxWidth="sm">
             <a href="/dashboard/app">
-            
-              <ArrowBackIosNewIcon sx={{ position: 'absolute', top: '10%', left: 190, transform: 'translateY(-50%)', padding: '2px' }} />
-
+              <ArrowBackIosNewIcon
+                sx={{ position: 'absolute', top: '10%', left: 90, transform: 'translateY(-50%)', padding: '2px' }}
+              />
             </a>
             <StyledContent>
-              <Typography variant="h4" gutterBottom>
+              <Typography variant="h4" gutterBottom sx={{ marginRight: '140px' }}>
                 <center>Account Settings</center>
               </Typography>
-
-              {/* Edit Profile Section */}
-              <StyledSection sx={{ mt: '8px' }}>
-                <EditProfileForm />
-              </StyledSection>
-
-              <Divider sx={{ my: 4 }} />
-
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={6}>
+                  {/* Edit Profile Section */}
+                  <EditProfileForm />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <EditProfilePicture />
+                  </div>
+                </Grid>
+              </Grid>
               {/* Change Password Section */}
-              <StyledSection>
-                <Typography variant="h6">Change Password</Typography>
-                <ChangePasswordForm />
-                <StyledButton variant="contained" color="secondary">
-                  Change Password
-                </StyledButton>
-              </StyledSection>
             </StyledContent>
           </Container>
         </Card>
