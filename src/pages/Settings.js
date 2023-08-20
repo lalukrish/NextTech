@@ -65,14 +65,16 @@ export default function Settings() {
               <Typography variant="h4" gutterBottom sx={{ marginRight: '140px' }}>
                 <center>Account Settings</center>
               </Typography>
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={6}>
-                  {/* Edit Profile Section */}
+              <Grid container spacing={2}>
+                <Grid item xs={12} md={8}>
                   <EditProfileForm />
                 </Grid>
-                <Grid item xs={12} md={6}>
+
+                <Grid item xs={12} md={4}>
                   <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <EditProfilePicture />
+                    <div>
+                      <EditProfilePicture />
+                    </div>
                   </div>
                 </Grid>
               </Grid>
