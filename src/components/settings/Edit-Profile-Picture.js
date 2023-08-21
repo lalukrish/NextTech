@@ -1,4 +1,4 @@
-import { Avatar, Backdrop, Box, CardContent, CircularProgress, Button } from '@mui/material';
+import { Avatar, Backdrop, Box, CardContent, CircularProgress,Card, Button } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 
@@ -18,7 +18,7 @@ const EditProfilePicture = () => {
 
     if (!image) {
       alert('Please select a file');
-      return; // This return statement is necessary if there is no image selected
+      return; 
     }
     const formData = new FormData();
     formData.append('image', image);
@@ -31,21 +31,30 @@ const EditProfilePicture = () => {
 
   return (
     <>
+    <Card>
       <form onSubmit={handleSubmit}>
         <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
           <CircularProgress color="inherit" />
         </Backdrop>
-
+        
         <CardContent>
-          update profile image
+          Update Profile Image
           <Box
-            sx={{
-              alignItems: 'center',
+             sx={{
+              alignItems: 'center', // Center vertically
               display: 'flex',
               flexDirection: 'column',
               position: 'relative',
+              minHeight: '30vh', // Adjust the height as needed
             }}
           >
+            <CardContent>
+              
+              <div style={{ position: 'relative' }}>
+                {/* Rest of your Avatar and IconButton code */}
+              </div>
+            </CardContent>
+          
             <div style={{ position: 'relative' }}>
               <Avatar
                 // src={`${process.env.NEXT_PUBLIC_CORE_HOST}/profile-image-download/mpi/${profileImageId}`}
@@ -77,6 +86,7 @@ const EditProfilePicture = () => {
           update
         </Button>
       </form>
+      </Card>
     </>
   );
 };
