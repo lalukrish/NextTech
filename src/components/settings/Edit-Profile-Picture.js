@@ -1,33 +1,58 @@
 import { Avatar, Backdrop, Box, CardContent, CircularProgress,Card, Button } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import axios from 'axios';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import EditProfileService from './setting-service/edit-profile-service';
 
 const EditProfilePicture = () => {
-  const userId=localStorage.getItem("USER_ID")
+  const userId = localStorage.getItem('USER_ID');
   const [image, setImage] = useState();
-  const handleFileChnage = (e) => {
+  const [profileImage, setProfileImage] = useState(null);
+  const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     setImage(selectedFile);
   };
-  console.log('file', image);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!image) {
       alert('Please select a file');
-      return; 
+      return;
     }
+
     const formData = new FormData();
     formData.append('image', image);
-     formData.append('id',userId)
+    formData.append('id', userId);
+
+    // Upload the image and update the profile image URL in the state
     EditProfileService(formData).then((response) => {
       const data = response;
-      console.log('data', data);
+      const imageUrl = data.data.profile_image_url;
+      handleProfileImage(); // Update the profile image URL
     });
   };
+
+  const handleProfileImage = () => {
+    const config = {
+      method: 'get',
+      url: `${process.env.REACT_APP_NEXTTECH_DEV_URL}/get-user-profile-image/${userId}`,
+      headers: {
+        accept: 'application/json',
+      },
+    };
+    axios(config).then((response) => {
+      const data = response.data;
+      const imageUrl = data.data.profile_image_url;
+      setProfileImage(imageUrl); // Update the profile image URL
+    });
+  };
+
+  useEffect(() => {
+    handleProfileImage();
+  }, []);
 
   return (
     <>
@@ -57,13 +82,13 @@ const EditProfilePicture = () => {
           
             <div style={{ position: 'relative' }}>
               <Avatar
-                // src={`${process.env.NEXT_PUBLIC_CORE_HOST}/profile-image-download/mpi/${profileImageId}`}
-                src="https://imgs.search.brave.com/WRxQQjbnYomMxAR5Zyd8vhzAHIt528uFBJH00tchops/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvOTE2/MDU2Njg0L3Bob3Rv/L2NvbG9yLWluay1p/bi13YXRlci5qcGc_/cz02MTJ4NjEyJnc9/MCZrPTIwJmM9YjhX/VS1nb0ZYWTFjOGJM/QXpQdF9fVUg2M1FZ/S2QxU3pVREtNNnNG/Rm5Wbz0"
+                src={profileImage}
                 sx={{
                   height: 100,
                   backgroundColor: 'black',
                   width: 100,
                 }}
+                alt="no image"
               />
 
               <IconButton
@@ -76,7 +101,7 @@ const EditProfilePicture = () => {
                   right: -10,
                 }}
               >
-                <input hidden name="avatar" type="file" onChange={handleFileChnage} />
+                <input hidden name="avatar" type="file" onChange={handleFileChange} />
                 <CameraAltIcon />
               </IconButton>
             </div>
