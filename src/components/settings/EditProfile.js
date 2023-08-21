@@ -48,6 +48,8 @@ const EditProfile = () => {
       full_name: userData ? userData.full_name : '',
       email: userData ? userData.email : '',
       user_name: userData ? userData.user_name : '',
+      phone_number: userData ? userData.phone_number : '',
+      country_code: userData ? userData.country_code : '',
     },
     onSubmit: async () => {
       console.log('submit');
@@ -62,7 +64,7 @@ const EditProfile = () => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid item xs={8} lg={12} sm={8}>
           <TextField
             placeholder="Full Name"
             name="full_name"
@@ -71,7 +73,7 @@ const EditProfile = () => {
             value={formik.values ? formik.values.full_name : ''}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={8} lg={12} sm={8}>
           <TextField
             placeholder="Email"
             name="email"
@@ -92,29 +94,25 @@ const EditProfile = () => {
           />
         </Grid>
 
-        
-          <Grid item xs={3}>
-
-            <Select
-              name="country_code"
-              value={formik.values ? formik.values.country_code : ''}
-              onChange={formik.handleChange}
-              fullWidth
-            >
-              <MenuItem value="+91">+1 (INDIA)</MenuItem>
-              <MenuItem value="+44">+44 (UK)</MenuItem>
-
-            </Select>
-          </Grid>
-          <Grid item xs={9}>
-            <TextField
-              placeholder="Phone Number"
-              name="phone_number"
-              fullWidth
-              onChange={formik.handleChange}
-              value={formik.values ? formik.values.phone_number : ''}
-            />
-          </Grid>
+        <Grid item xs={3}>
+          <Select
+            name="country_code"
+            value={formik.values ? formik.values.country_code : ''}
+            onChange={formik.handleChange}
+            fullWidth
+          >
+            <MenuItem value="+91">+1 (INDIA)</MenuItem>
+            <MenuItem value="+44">+44 (UK)</MenuItem>
+          </Select>
+        </Grid>
+        <Grid item xs={9}>
+          <TextField
+            placeholder="Phone Number"
+            name="phone_number"
+            fullWidth
+            onChange={formik.handleChange}
+            value={formik.values ? formik.values.phone_number : ''}
+          />
         </Grid>
 
         {/* ... Other fields */}
@@ -123,7 +121,7 @@ const EditProfile = () => {
             Save Changes
           </Button>
         </Grid>
-      
+      </Grid>
     </form>
   );
 };

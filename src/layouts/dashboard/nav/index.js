@@ -73,7 +73,7 @@ export default function Nav({ openNav, onCloseNav }) {
 
       <Box sx={{ mb: 5, mx: 2.5 }}>
         <StyledAccount>
-          <a href="/settings">
+          <a href="/dashboard/settings">
             <Avatar src={account.photoURL} alt="photoURL" />
           </a>
           <Box sx={{ ml: 2 }}>
