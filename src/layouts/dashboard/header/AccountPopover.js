@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 import { useDispatch, useSelector } from 'react-redux';
 // @mui
@@ -27,6 +28,7 @@ const MENU_OPTIONS = [
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
+  const userId = localStorage.getItem('USER_ID');
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(userProfile()).then((response) => {
@@ -48,6 +50,26 @@ export default function AccountPopover() {
     setOpen(null);
   };
 
+  const [profileImage, setProfileImage] = useState();
+
+  const handleProfileImage = () => {
+    const config = {
+      method: 'get',
+      url: `${process.env.REACT_APP_NEXTTECH_DEV_URL}/get-user-profile-image/${userId}`,
+      headers: {
+        accept: 'application/json',
+      },
+    };
+    axios(config).then((response) => {
+      const data = response.data;
+      const imageUrl = data.data.profile_image_url;
+      setProfileImage(imageUrl); // Update the profile image URL
+    });
+  };
+
+  useEffect(() => {
+    handleProfileImage();
+  }, []);
   return (
     <>
       <IconButton
@@ -68,7 +90,7 @@ export default function AccountPopover() {
         }}
 
       >
-        <Avatar src="https://www.trickscity.com/wp-content/uploads/2018/02/dasing-boys-dp.jpg" alt="photoURL" />
+        <Avatar src={profileImage} alt="photoURL" />
       </IconButton>
 
       <Popover
