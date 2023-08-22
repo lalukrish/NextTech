@@ -66,6 +66,7 @@ export default function AccountPopover() {
             },
           }),
         }}
+
       >
         <Avatar src="https://www.trickscity.com/wp-content/uploads/2018/02/dasing-boys-dp.jpg" alt="photoURL" />
       </IconButton>
