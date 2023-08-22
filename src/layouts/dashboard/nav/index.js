@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import axios from 'axios';
+
 // @mui
 import { styled, alpha } from '@mui/material/styles';
 import { Box, Link, Button, Drawer, Typography, Avatar, Stack } from '@mui/material';
@@ -39,6 +41,7 @@ Nav.propTypes = {
 };
 
 export default function Nav({ openNav, onCloseNav }) {
+  const userId = localStorage.getItem('USER_ID');
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -59,6 +62,25 @@ export default function Nav({ openNav, onCloseNav }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
+  const [profileImage, setProfileImage] = useState(null);
+  const handleProfileImage = () => {
+    const config = {
+      method: 'get',
+      url: `${process.env.REACT_APP_NEXTTECH_DEV_URL}/get-user-profile-image/${userId}`,
+      headers: {
+        accept: 'application/json',
+      },
+    };
+    axios(config).then((response) => {
+      const data = response.data;
+      const imageUrl = data.data.profile_image_url;
+      setProfileImage(imageUrl); // Update the profile image URL
+    });
+  };
+
+  useEffect(() => {
+    handleProfileImage();
+  }, []);
 
   const renderContent = (
     <Scrollbar
@@ -74,7 +96,7 @@ export default function Nav({ openNav, onCloseNav }) {
       <Box sx={{ mb: 5, mx: 2.5 }}>
         <StyledAccount>
           <a href="/dashboard/settings">
-            <Avatar src={account.photoURL} alt="photoURL" />
+            <Avatar src={profileImage} alt="photoURL" />
           </a>
           <Box sx={{ ml: 2 }}>
             <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
