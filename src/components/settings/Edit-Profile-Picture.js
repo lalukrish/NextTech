@@ -56,7 +56,8 @@ const EditProfilePicture = () => {
 
   return (
     <>
-    <Card>
+    <Card style={{ position: 'relative', width: 160, padding: 5, boxShadow: '1px 3px 6px rgba(0, 0, 0, 0.16)' }}>
+
       <form onSubmit={handleSubmit}>
         <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
           <CircularProgress color="inherit" />
