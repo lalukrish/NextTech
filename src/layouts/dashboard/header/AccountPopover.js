@@ -40,7 +40,13 @@ export default function AccountPopover(props) {
 
   const userName = useSelector((state) => state.myprofile?.successMessage?.data?.user?.full_name);
   const userEmail = useSelector((state) => state.myprofile?.successMessage?.data?.user?.email);
-  console.log('userProfileDetails', userName);
+  const userProfileImage = useSelector((state) => state.myprofilepic?.successMessage?.data?.data?.profile_image_url);
+  const [profileImage, setProfileImage] = useState(userProfileImage);
+
+  // Use useEffect to update profileImage when userProfileImage changes
+  useEffect(() => {
+    setProfileImage(userProfileImage);
+  }, [userProfileImage]); // This dependency array ensures the effect runs when userProfileImage changes
 
   const [open, setOpen] = useState(null);
 
@@ -52,26 +58,6 @@ export default function AccountPopover(props) {
     setOpen(null);
   };
 
-  // const [profileImage, setProfileImage] = useState();
-
-  // const handleProfileImage = () => {
-  //   const config = {
-  //     method: 'get',
-  //     url: `${process.env.REACT_APP_NEXTTECH_DEV_URL}/get-user-profile-image/${userId}`,
-  //     headers: {
-  //       accept: 'application/json',
-  //     },
-  //   };
-  //   axios(config).then((response) => {
-  //     const data = response.data;
-  //     const imageUrl = data.data.profile_image_url;
-  //     setProfileImage(imageUrl); // Update the profile image URL
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   handleProfileImage();
-  // }, []);
   return (
     <>
       <IconButton
@@ -90,9 +76,8 @@ export default function AccountPopover(props) {
             },
           }),
         }}
-
       >
-        <Avatar src={props.profileImage} alt="photoURL" />
+        <Avatar src={profileImage} alt="photoURL" />
       </IconButton>
 
       <Popover
