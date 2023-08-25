@@ -1,4 +1,4 @@
-import { Avatar, Backdrop, Box, CardContent, CircularProgress, Button } from '@mui/material';
+import { Avatar, Backdrop, Box, CardContent, CircularProgress,Card, Button } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import axios from 'axios';
@@ -58,21 +58,31 @@ const EditProfilePicture = () => {
 
   return (
     <>
+    <Card style={{ position: 'relative', width: 160, padding: 5, boxShadow: '1px 3px 6px rgba(0, 0, 0, 0.16)' }}>
+
       <form onSubmit={handleSubmit}>
         <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
           <CircularProgress color="inherit" />
         </Backdrop>
-
+        
         <CardContent>
-          update profile image
+          Update Profile Image
           <Box
-            sx={{
-              alignItems: 'center',
+             sx={{
+              alignItems: 'center', // Center vertically
               display: 'flex',
               flexDirection: 'column',
               position: 'relative',
+              minHeight: '30vh', // Adjust the height as needed
             }}
           >
+            <CardContent>
+              
+              <div style={{ position: 'relative' }}>
+                {/* Rest of your Avatar and IconButton code */}
+              </div>
+            </CardContent>
+          
             <div style={{ position: 'relative' }}>
               <Avatar
                 src={profileImage}
@@ -104,6 +114,7 @@ const EditProfilePicture = () => {
           update
         </Button>
       </form>
+      </Card>
     </>
   );
 };

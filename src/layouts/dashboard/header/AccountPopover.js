@@ -90,6 +90,7 @@ export default function AccountPopover(props) {
             },
           }),
         }}
+
       >
         <Avatar src={props.profileImage} alt="photoURL" />
       </IconButton>
