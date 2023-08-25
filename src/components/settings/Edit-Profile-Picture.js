@@ -54,6 +54,8 @@ const EditProfilePicture = () => {
     handleProfileImage();
   }, []);
 
+  console.log('the valueis 1', profileImage);
+
   return (
     <>
       <form onSubmit={handleSubmit}>
