@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { Grid, Button, Container, Stack, Typography } from '@mui/material';
 // components
 import BlogPageResults from '../components/blog/blog-page';
-import SimpleCard from '../components/blog/add-posts';
+import SimpleCard from '../components/posts/add-posts';
 
 import Iconify from '../components/iconify';
 import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from '../sections/@dashboard/blog';
@@ -28,9 +28,9 @@ export default function BlogPage() {
       </Helmet>
 
       <Container>
-        <SimpleCard/>
-        <BlogPageResults/>
-    </Container>
+        <SimpleCard />
+        <BlogPageResults />
+      </Container>
     </>
   );
 }

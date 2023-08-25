@@ -27,7 +27,9 @@ const MENU_OPTIONS = [
 
 // ----------------------------------------------------------------------
 
-export default function AccountPopover() {
+export default function AccountPopover(props) {
+  console.log('the valueis 2', props.profileImage);
+
   const userId = localStorage.getItem('USER_ID');
   const dispatch = useDispatch();
   useEffect(() => {
@@ -50,26 +52,26 @@ export default function AccountPopover() {
     setOpen(null);
   };
 
-  const [profileImage, setProfileImage] = useState();
+  // const [profileImage, setProfileImage] = useState();
 
-  const handleProfileImage = () => {
-    const config = {
-      method: 'get',
-      url: `${process.env.REACT_APP_NEXTTECH_DEV_URL}/get-user-profile-image/${userId}`,
-      headers: {
-        accept: 'application/json',
-      },
-    };
-    axios(config).then((response) => {
-      const data = response.data;
-      const imageUrl = data.data.profile_image_url;
-      setProfileImage(imageUrl); // Update the profile image URL
-    });
-  };
+  // const handleProfileImage = () => {
+  //   const config = {
+  //     method: 'get',
+  //     url: `${process.env.REACT_APP_NEXTTECH_DEV_URL}/get-user-profile-image/${userId}`,
+  //     headers: {
+  //       accept: 'application/json',
+  //     },
+  //   };
+  //   axios(config).then((response) => {
+  //     const data = response.data;
+  //     const imageUrl = data.data.profile_image_url;
+  //     setProfileImage(imageUrl); // Update the profile image URL
+  //   });
+  // };
 
-  useEffect(() => {
-    handleProfileImage();
-  }, []);
+  // useEffect(() => {
+  //   handleProfileImage();
+  // }, []);
   return (
     <>
       <IconButton
@@ -90,7 +92,7 @@ export default function AccountPopover() {
         }}
 
       >
-        <Avatar src={profileImage} alt="photoURL" />
+        <Avatar src={props.profileImage} alt="photoURL" />
       </IconButton>
 
       <Popover

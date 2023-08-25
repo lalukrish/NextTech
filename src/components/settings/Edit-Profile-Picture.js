@@ -54,6 +54,8 @@ const EditProfilePicture = () => {
     handleProfileImage();
   }, []);
 
+  console.log('the valueis 1', profileImage);
+
   return (
     <>
     <Card style={{ position: 'relative', width: 160, padding: 5, boxShadow: '1px 3px 6px rgba(0, 0, 0, 0.16)' }}>

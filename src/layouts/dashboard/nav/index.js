@@ -40,7 +40,7 @@ Nav.propTypes = {
   onCloseNav: PropTypes.func,
 };
 
-export default function Nav({ openNav, onCloseNav }) {
+export default function Nav({ openNav, onCloseNav, profileImage }) {
   const userId = localStorage.getItem('USER_ID');
   const dispatch = useDispatch();
 
@@ -62,25 +62,25 @@ export default function Nav({ openNav, onCloseNav }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
-  const [profileImage, setProfileImage] = useState(null);
-  const handleProfileImage = () => {
-    const config = {
-      method: 'get',
-      url: `${process.env.REACT_APP_NEXTTECH_DEV_URL}/get-user-profile-image/${userId}`,
-      headers: {
-        accept: 'application/json',
-      },
-    };
-    axios(config).then((response) => {
-      const data = response.data;
-      const imageUrl = data.data.profile_image_url;
-      setProfileImage(imageUrl); // Update the profile image URL
-    });
-  };
+  // const [profileImage, setProfileImage] = useState(null);
+  // const handleProfileImage = () => {
+  //   const config = {
+  //     method: 'get',
+  //     url: `${process.env.REACT_APP_NEXTTECH_DEV_URL}/get-user-profile-image/${userId}`,
+  //     headers: {
+  //       accept: 'application/json',
+  //     },
+  //   };
+  //   axios(config).then((response) => {
+  //     const data = response.data;
+  //     const imageUrl = data.data.profile_image_url;
+  //     setProfileImage(imageUrl); // Update the profile image URL
+  //   });
+  // };
 
-  useEffect(() => {
-    handleProfileImage();
-  }, []);
+  // useEffect(() => {
+  //   handleProfileImage();
+  // }, []);
 
   const renderContent = (
     <Scrollbar
