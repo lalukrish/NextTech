@@ -11,6 +11,7 @@ import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
 import SingupPage from './pages/SingupPage';
 import Settings from './pages/Settings';
+import AddPost from './pages/AddPost';
 
 // ----------------------------------------------------------------------
 
@@ -28,6 +29,7 @@ export default function Router() {
         { path: 'settings', element: <Settings /> },
       ],
     },
+    { path: 'addpost', element: <AddPost /> },
 
     {
       path: 'login',
