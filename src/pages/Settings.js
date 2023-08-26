@@ -5,8 +5,8 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { Link, Container, Typography, Button, Divider, Stack, Card, Grid } from '@mui/material';
 import Logo from '../components/logo';
 import EditProfileForm from '../components/settings/EditProfile'; // Assuming you have these components
-import ChangePasswordForm from '../components/settings/ChangePassword';
 import EditProfilePicture from '../components/settings/Edit-Profile-Picture';
+import ChangePasswordForm from '../components/settings/ChangePassword';
 
 const StyledRoot = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
