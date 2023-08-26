@@ -40,7 +40,7 @@ Nav.propTypes = {
   onCloseNav: PropTypes.func,
 };
 
-export default function Nav({ openNav, onCloseNav, profileImage }) {
+export default function Nav({ openNav, onCloseNav }) {
   const userId = localStorage.getItem('USER_ID');
   const dispatch = useDispatch();
 
@@ -62,25 +62,14 @@ export default function Nav({ openNav, onCloseNav, profileImage }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
-  // const [profileImage, setProfileImage] = useState(null);
-  // const handleProfileImage = () => {
-  //   const config = {
-  //     method: 'get',
-  //     url: `${process.env.REACT_APP_NEXTTECH_DEV_URL}/get-user-profile-image/${userId}`,
-  //     headers: {
-  //       accept: 'application/json',
-  //     },
-  //   };
-  //   axios(config).then((response) => {
-  //     const data = response.data;
-  //     const imageUrl = data.data.profile_image_url;
-  //     setProfileImage(imageUrl); // Update the profile image URL
-  //   });
-  // };
 
-  // useEffect(() => {
-  //   handleProfileImage();
-  // }, []);
+  const userProfileImage = useSelector((state) => state.myprofilepic?.successMessage?.data?.data?.profile_image_url);
+  const [profileImage, setProfileImage] = useState(userProfileImage);
+
+  // Use useEffect to update profileImage when userProfileImage changes
+  useEffect(() => {
+    setProfileImage(userProfileImage);
+  }, [userProfileImage]); // This dependency array ensures the effect runs when userProfileImage changes
 
   const renderContent = (
     <Scrollbar
