@@ -4,15 +4,15 @@ import axios from 'axios';
 
 const AddPostData = () => {
   const [title, setTitle] = useState('');
-  const [location, setLocation] = useState('');
+  const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
   };
 
-  const handleLocationChange = (e) => {
-    setLocation(e.target.value);
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
   };
 
   const handleImageChange = (e) => {
@@ -22,14 +22,14 @@ const AddPostData = () => {
   const handlePost = async () => {
     const formData = new FormData();
     formData.append('title', title);
-    formData.append('location', location);
+    formData.append('description', description);
     formData.append('image', image);
 
     try {
-      const response = await axios.post('/api/post', formData);
+      const response = await axios.post('/create_post', formData);
       console.log('Post successful', response.data);
       setTitle('');
-      setLocation('');
+      setDescription('');
       setImage(null);
     } catch (error) {
       console.error('Error posting', error);
@@ -37,7 +37,8 @@ const AddPostData = () => {
   };
 
   return (
-    <Card>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',boxShadow: '1px 3px 6px rgba(0.16, 0.16, 0.16, 0.16)' }}>
+    <Card sx={{ width: '800px', height: '600px', mt: '1px' }}>
       {image && (
         <CardMedia
           component="img"
@@ -54,10 +55,10 @@ const AddPostData = () => {
           onChange={handleTitleChange}
         />
         <TextField
-          label="Location"
+          label="Description"
           fullWidth
-          value={location}
-          onChange={handleLocationChange}
+          value={description}
+          onChange={handleDescriptionChange}
         />
         <input type="file" accept="image/*" onChange={handleImageChange} />
         <Button variant="contained" color="primary" onClick={handlePost}>
@@ -65,6 +66,7 @@ const AddPostData = () => {
         </Button>
       </CardContent>
     </Card>
+    </div>
   );
 };
 
