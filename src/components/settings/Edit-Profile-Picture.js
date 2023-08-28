@@ -27,6 +27,7 @@ const EditProfilePicture = () => {
     }
 
     const formData = new FormData();
+
     formData.append('image', image);
     formData.append('id', userId);
 
