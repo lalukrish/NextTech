@@ -11,7 +11,7 @@ const StyledProductImg = styled('img')({
 });
 export default function MyPosts() {
   return (
-    <Card>
+    <Card style={{ position: 'relative', width: 500, padding: 2, boxShadow: '1px 3px 6px rgba(0, 0, 0, 0.16)' }}>
       <Box sx={{ pt: '100%', position: 'relative' }}>
         <Label
           variant="filled"
