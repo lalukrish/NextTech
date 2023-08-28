@@ -62,7 +62,7 @@ const BlogPageResults = () => {
         <Card style={{ marginBottom: '20px' }}>
           <CardHeader avatar={<Avatar src={profileImage} alt={post?.username} />} title={userName} />
           <CardContent>
-            <img src={posts?.image_url} alt="Post" style={{ width: '100%' }} />
+            <img src={posts?.image_url} alt="Post" style={{ width: '70%' }} />
           </CardContent>
           <CardActions disableSpacing>
             <IconButton>
