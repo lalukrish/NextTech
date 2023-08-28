@@ -45,6 +45,7 @@ export default function ShopProductCard({ product }) {
             {status}
           </Label>
         )}
+        404
         <StyledProductImg alt={name} src={cover} />
       </Box>
 
