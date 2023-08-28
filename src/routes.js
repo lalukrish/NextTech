@@ -12,6 +12,7 @@ import DashboardAppPage from './pages/DashboardAppPage';
 import SingupPage from './pages/SingupPage';
 import Settings from './pages/Settings';
 import AddPost from './pages/AddPost';
+import MyCollection from './pages/MyCollection';
 
 // ----------------------------------------------------------------------
 
@@ -24,7 +25,7 @@ export default function Router() {
         { element: <Navigate to="/dashboard/app" />, index: true },
         { path: 'app', element: <DashboardAppPage /> },
         { path: 'user', element: <UserPage /> },
-        { path: 'products', element: <ProductsPage /> },
+        { path: 'my-collection', element: <MyCollection /> },
         { path: 'blog', element: <BlogPage /> },
         { path: 'settings', element: <Settings /> },
       ],
