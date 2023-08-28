@@ -17,6 +17,7 @@ import Logo from '../../../components/logo';
 import Scrollbar from '../../../components/scrollbar';
 import NavSection from '../../../components/nav-section';
 import { userProfile } from '../../../redux/slices/userProfileSlice';
+import { userProfilePicture } from '../../../redux/slices/userProfileImage';
 
 //
 import navConfig from './config';
@@ -67,9 +68,22 @@ export default function Nav({ openNav, onCloseNav }) {
   const [profileImage, setProfileImage] = useState(userProfileImage);
 
   // Use useEffect to update profileImage when userProfileImage changes
+  // useEffect(() => {
+  //   setProfileImage(userProfileImage);
+  // }, [userProfileImage]); // This dependency array ensures the effect runs when userProfileImage changes
+
+  const handleProfileImage = () => {
+    dispatch(userProfilePicture()).then((response) => {
+      const data = response.payload.data.data.profile_image_url;
+      console.log('res', data);
+
+      setProfileImage(data);
+    });
+  };
+
   useEffect(() => {
-    setProfileImage(userProfileImage);
-  }, [userProfileImage]); // This dependency array ensures the effect runs when userProfileImage changes
+    handleProfileImage();
+  }, []);
 
   const renderContent = (
     <Scrollbar
