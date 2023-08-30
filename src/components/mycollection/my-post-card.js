@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import { Grid, Modal } from '@mui/material';
+import { Grid } from '@mui/material';
 
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
@@ -17,7 +17,6 @@ import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import myPostsSservice from './my-posts-service';
-import MyPostCardMoal from './my-post-modalView';
 
 // interface ExpandMoreProps extends IconButtonProps {
 //   expand: boolean;
@@ -54,20 +53,8 @@ const MyPostResults = () => {
   useEffect(() => {
     handleAllPosts();
   }, []);
-
-  const [open, setOpen] = useState(false);
-
-  const handleModalOpen = () => {
-    setOpen(true);
-  };
-
-  const handleModalClose = () => {
-    setOpen(false);
-  };
-
   return (
     <>
-      <MyPostCardMoal open={open} handleModalClose={handleModalClose} />
       <Grid container spacing={2}>
         {' '}
         {/* Use a Grid container */}
@@ -88,14 +75,8 @@ const MyPostResults = () => {
                   </IconButton>
                 }
                 subheader="September 14, 2016"
-              />{' '}
-              <CardMedia
-                component="img"
-                height="194"
-                image={posts.image_url}
-                alt="Paella dish"
-                onClick={handleModalOpen}
               />
+              <CardMedia component="img" height="194" image={posts.image_url} alt="Paella dish" />
               <CardContent>
                 {/* <Typography variant="body2" color="text.secondary">
                   This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1
@@ -103,6 +84,7 @@ const MyPostResults = () => {
                 </Typography> */}
               </CardContent>
               <Typography paragraph>{posts.post_title}</Typography>
+
               <CardActions disableSpacing>
                 <IconButton aria-label="add to favorites">
                   <FavoriteIcon />

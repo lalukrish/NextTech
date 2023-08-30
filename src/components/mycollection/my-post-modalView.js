@@ -1,5 +1,6 @@
 import { Modal, Typographym, Card, Typography, Box } from '@mui/material';
 import React from 'react';
+import myPostsSservice from './my-posts-service'
 
 const style = {
   position: 'absolute',
@@ -13,7 +14,7 @@ const style = {
   p: 4,
 };
 
-const MyPostCardMoal = ({ open, handleModalClose }) => {
+const MyPostCardMoal = ({ open, handleModalClose}) => {
   return (
     <div>
       <Modal
@@ -23,12 +24,7 @@ const MyPostCardMoal = ({ open, handleModalClose }) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
+          <img src={myPostsSservice} alt="Full View" style={{ maxWidth: '100%', maxHeight: '50vh' }} />
         </Box>
       </Modal>
     </div>
