@@ -27,7 +27,7 @@ export default function BlogPage() {
         <title> Dashboard: Blog | Minimal UI </title>
       </Helmet>
 
-      <Container>
+      <Container sx={{ width: '800px' }}>
         <SimpleCard />
         <BlogPageResults />
       </Container>
