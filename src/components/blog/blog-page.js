@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Avatar, Button, Card, CardContent, CardActions, CardHeader, IconButton, Typography } from '@mui/material';
-import { Favorite as FavoriteIcon, ChatBubbleOutline as ChatBubbleOutlineIcon } from '@mui/icons-material';
+import { Favorite as FavoriteIcon, ChatBubbleOutline as ChatBubbleOutlineIcon, AddComment } from '@mui/icons-material';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
@@ -53,7 +53,7 @@ const BlogPageResults = () => {
     handleAllPosts();
   }, []);
 
-  console.log('ia mhere', post);
+  console.log('iam here', post);
 
   return (
     <div>
@@ -71,6 +71,7 @@ const BlogPageResults = () => {
             {/* <Typography>{post?.likes}</Typography> */}
             <IconButton>
               <ChatBubbleOutlineIcon />
+              <AddComment/>
             </IconButton>
             <Typography>{posts?.description}</Typography>
           </CardActions>
