@@ -62,7 +62,7 @@ const BlogPageResults = () => {
         <Card style={{ marginBottom: '20px' }}>
           <CardHeader avatar={<Avatar src={profileImage} alt={post?.username} />} title={userName} />
           <CardContent>
-            <img src={posts?.image_url} alt="Post" style={{ width: '70%' }} />
+            <img src={posts?.image_url} alt="Post" style={{ width: '600px', maxHeight: '600px' }} />
           </CardContent>
           <CardActions disableSpacing>
             <IconButton>
@@ -70,8 +70,11 @@ const BlogPageResults = () => {
             </IconButton>
             {/* <Typography>{post?.likes}</Typography> */}
             <IconButton>
-              <ChatBubbleOutlineIcon />
-              <AddComment/>
+              <Button>
+                <ChatBubbleOutlineIcon />
+              </Button>
+
+              {/* <AddComment /> */}
             </IconButton>
             <Typography>{posts?.description}</Typography>
           </CardActions>
