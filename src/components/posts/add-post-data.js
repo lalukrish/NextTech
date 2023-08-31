@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
+import {  useNavigate } from 'react-router-dom';
 import { TextField, Button, Card, CardContent, CardMedia } from '@mui/material';
+import Alert from '@mui/material/Alert';
+
 import axios from 'axios';
 
+
 const AddPostData = () => {
+
+  const navigate=useNavigate()
   const userId = localStorage.getItem('USER_ID');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -20,6 +26,9 @@ const AddPostData = () => {
     setImage(e.target.files[0]);
   };
 
+  const [alert,setAlert]= useState("")
+
+
   const handlePost = async () => {
     const formData = new FormData();
     formData.append('id', userId);
@@ -28,11 +37,16 @@ const AddPostData = () => {
     formData.append('image', image);
 
     try {
-      const response = await axios.post(`${process.env.REACT_APP_NEXTTECH_DEV_URL}/create_post`, formData);
-      console.log('Post successful', response.data);
-      setTitle('');
-      setDescription('');
-      setImage(null);
+      const response = await axios.post(`${process.env.REACT_APP_NEXTTECH_DEV_URL}/create_post`, formData).then((response)=>{
+        console.log('Post successful', response.data);
+        const data=response.data
+        setAlert(data.message)
+        setTitle('');
+        setDescription('');
+        setImage(null);
+      navigate("/dashboard/blog")
+      });
+    
     } catch (error) {
       console.error('Error posting', error);
     }
@@ -57,7 +71,14 @@ const AddPostData = () => {
             Post
           </Button>
         </CardContent>
+     
       </Card>
+      <Alert severity="success" sx={{
+        mt:30,justifyContent:"center",alignContent:"center"
+      }}>
+      
+      {alert}<strong>check it out!</strong>
+    </Alert>
     </div>
   );
 };
