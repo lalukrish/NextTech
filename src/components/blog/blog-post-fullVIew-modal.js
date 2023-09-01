@@ -9,6 +9,10 @@ import {
   Modal,
   Card,
   Box,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  TextField,
 } from '@mui/material';
 import { Favorite as FavoriteIcon, ChatBubbleOutline as ChatBubbleOutlineIcon, AddComment } from '@mui/icons-material';
 import React, { useEffect, useState } from 'react';
@@ -64,39 +68,65 @@ const MyPostCardModal = ({ modalOpen, handleModalClose, postId }) => {
   };
 
   return (
-    <div>
-      <Modal
-        open={modalOpen}
-        onClose={handleCommentModalClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <div>
-            <Typography variant="h5">Posts</Typography>
+<div>
+  <Dialog
+    open={modalOpen}
+    onClose={handleCommentModalClose}
+    maxWidth="lg" // Set your desired modal width, e.g., lg for large
+    fullWidth // Make the modal take up the full width
+    aria-labelledby="modal-modal-title"
+    aria-describedby="modal-modal-description"
+  >
+    <DialogTitle id="modal-modal-title">
+      Posts
+    </DialogTitle>
+    <DialogContent>
+      <div style={{ display: 'flex' }}>
+        {/* Left Card for Image */}
+        <Card style={{ flex: 1, marginRight: '20px' }}>
+          <CardHeader
+            avatar={<Avatar src={profileImage} alt={post?.username} />}
+            title={userName}
+          />
+          <CardContent>
             {post ? (
-              <Card style={{ marginBottom: '20px' }}>
-                <CardHeader avatar={<Avatar src={profileImage} alt={post?.username} />} title={userName} />
-                <CardContent>
-                  <img src={post?.image_url} alt="Post" style={{ width: '600px', maxHeight: '600px' }} />
-                </CardContent>
-                <CardActions disableSpacing>
-                  <IconButton>
-                    <FavoriteIcon color="error" />
-                  </IconButton>
-                  <IconButton>
-                    <ChatBubbleOutlineIcon />
-                  </IconButton>
-                  <Typography>{post?.description}</Typography>
-                </CardActions>
-              </Card>
+              <>
+                <img
+                  src={post?.image_url}
+                  alt="Post"
+                  style={{ width: '100%', maxHeight: '600px' }}
+                />
+                <Typography>{post?.description}</Typography>
+              </>
             ) : (
               <p>No post to display</p>
             )}
-          </div>
-        </Box>
-      </Modal>
-    </div>
+          </CardContent>
+        </Card>
+
+        {/* Right Card for Comment Section */}
+        <Card style={{ flex: 1 }}>
+          <CardContent>
+            {/* Input field for adding comments */}
+            <TextField
+              fullWidth
+              variant="outlined"
+              label="Add a comment"
+              placeholder="Add a comment..."
+            />
+            <Button variant="contained" color="primary" fullWidth>
+              Post
+            </Button>
+
+            {/* Display existing comments here */}
+            {/* You can map through your comments and render them */}
+          </CardContent>
+        </Card>
+      </div>
+    </DialogContent>
+  </Dialog>
+</div>
+  
   );
 };
 
