@@ -55,7 +55,7 @@ const BlogPageResults = () => {
 
   return (
     <>
-      <MyPostCardModal modalOpen={modalOpen} handleModalClose={handleModalClose} postId={postId} />
+       <MyPostCardModal modalOpen={modalOpen} handleModalClose={handleModalClose} postId={postId} />
       <div>
         <Typography variant="h5">Posts</Typography>
         {post.map((posts) => (
