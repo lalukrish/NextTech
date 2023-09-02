@@ -14,10 +14,14 @@ import {
   DialogContent,
   TextField,
 } from '@mui/material';
-import { Favorite as FavoriteIcon, ChatBubbleOutline as ChatBubbleOutlineIcon, AddComment } from '@mui/icons-material';
+import {
+  FavoriteBorderOutlined as FavoriteBorderOutlinedIcon,
+  ReplyOutlined as ReplyOutlinedIcon,
+} from '@mui/icons-material';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import GetCommentService from './comment/get-comment-service';
 
 const style = {
   position: 'absolute',
@@ -32,6 +36,7 @@ const style = {
 };
 
 const MyPostCardModal = ({ modalOpen, handleModalClose, postId }) => {
+  const userId = localStorage.getItem('USER_ID');
   console.log('post------>id', postId);
   const userName = useSelector((state) => state.myprofile?.successMessage?.data?.user?.full_name);
 
@@ -57,76 +62,118 @@ const MyPostCardModal = ({ modalOpen, handleModalClose, postId }) => {
     });
   };
 
-  useEffect(() => {
-    handleSinglePost();
-  }, [postId]);
-
   console.log('iam hereeeee', post);
   const handleCommentModalClose = () => {
     handleModalClose();
     allPost(null);
+    setComment([]);
   };
 
+  const [comment, setComment] = useState([]);
+
+  const handleCommentOfPost = () => {
+    GetCommentService(postId).then((response) => {
+      const data = response.data.comments;
+      console.log('comments', data);
+      setComment(data);
+    });
+  };
+
+  useEffect(() => {
+    handleSinglePost();
+    handleCommentOfPost();
+  }, [postId]);
+
+  const [text, setText] = useState('');
+  const handlePostComment = () => {
+    const config = {
+      method: 'post',
+      url: `${process.env.REACT_APP_NEXTTECH_DEV_URL}/comments/add-comment`,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: {
+        postid: postId,
+        userid: userId,
+        text,
+      },
+    };
+
+    axios(config).then((response) => {
+      const data = response.data;
+      console.log('data', data);
+      handleCommentOfPost();
+      setText('');
+    });
+  };
   return (
-<div>
-  <Dialog
-    open={modalOpen}
-    onClose={handleCommentModalClose}
-    maxWidth="lg" // Set your desired modal width, e.g., lg for large
-    fullWidth // Make the modal take up the full width
-    aria-labelledby="modal-modal-title"
-    aria-describedby="modal-modal-description"
-  >
-    <DialogTitle id="modal-modal-title">
-      Posts
-    </DialogTitle>
-    <DialogContent>
-      <div style={{ display: 'flex' }}>
-        {/* Left Card for Image */}
-        <Card style={{ flex: 1, marginRight: '20px' }}>
-          <CardHeader
-            avatar={<Avatar src={profileImage} alt={post?.username} />}
-            title={userName}
-          />
-          <CardContent>
-            {post ? (
-              <>
-                <img
-                  src={post?.image_url}
-                  alt="Post"
-                  style={{ width: '100%', maxHeight: '600px' }}
+    <div>
+      <Dialog
+        open={modalOpen}
+        onClose={handleCommentModalClose}
+        maxWidth="lg"
+        fullWidth
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <DialogTitle id="modal-modal-title">Posts</DialogTitle>
+        <DialogContent>
+          <div style={{ display: 'flex' }}>
+            <Card style={{ flex: 1, marginRight: '20px' }}>
+              {' '}
+              <CardHeader avatar={<Avatar src={profileImage} alt={post?.username} />} title={userName} />
+              <CardContent>
+                {post ? (
+                  <>
+                    <img src={post?.image_url} alt="Post" style={{ width: '100%', maxHeight: '600px' }} />
+                    <Typography>{post?.description}</Typography>
+                  </>
+                ) : (
+                  <p>No post to display</p>
+                )}
+              </CardContent>
+            </Card>
+
+            <Card style={{ flex: 1, maxHeight: '600px', overflowY: 'auto' }}>
+              <CardContent>
+                <TextField
+                  fullWidth
+                  variant="outlined"
+                  label="Add a comment"
+                  placeholder="Add a comment..."
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
                 />
-                <Typography>{post?.description}</Typography>
-              </>
-            ) : (
-              <p>No post to display</p>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Right Card for Comment Section */}
-        <Card style={{ flex: 1 }}>
-          <CardContent>
-            {/* Input field for adding comments */}
-            <TextField
-              fullWidth
-              variant="outlined"
-              label="Add a comment"
-              placeholder="Add a comment..."
-            />
-            <Button variant="contained" color="primary" fullWidth>
-              Post
-            </Button>
-
-            {/* Display existing comments here */}
-            {/* You can map through your comments and render them */}
-          </CardContent>
-        </Card>
-      </div>
-    </DialogContent>
-  </Dialog>
-</div>
-  
+                <Button variant="contained" color="primary" fullWidth onClick={handlePostComment}>
+                  Post
+                </Button>
+                {comment.length === 0 ? (
+                  <Typography>No comments to display</Typography>
+                ) : (
+                  comment.map((comments) => (
+                    <div key={comments._id} style={{ marginBottom: '10px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
+                        {/* <Avatar src={comment.author.profileImage} alt={comment.author.username} /> */}
+                        <Typography style={{ marginLeft: '10px' }}>{comments.author.username}</Typography>
+                      </div>
+                      <Typography>{comments.text}</Typography>
+                      <div style={{ marginTop: '10px' }}>
+                        <IconButton color="primary">
+                          <FavoriteBorderOutlinedIcon /> {/* Like icon */}
+                        </IconButton>
+                        <IconButton color="secondary">
+                          <ReplyOutlinedIcon /> {/* Reply icon */}
+                        </IconButton>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 };
 
