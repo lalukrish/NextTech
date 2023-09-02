@@ -24,6 +24,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import GetCommentService from './comment/get-comment-service';
+import AddReplyComment from './comment/add-reply-comment';
 
 const style = {
   position: 'absolute',
@@ -117,6 +118,40 @@ const MyPostCardModal = ({ modalOpen, handleModalClose, postId }) => {
     }));
   };
 
+  const [replyText, setReplyText] = useState();
+  const handleReplyComment = (commentId) => {
+    // Implement your reply functionality here
+    // You can use the replyText state to send the reply text to the server
+    // After posting the reply, you can update the UI and clear the replyText state
+
+    const replyData = {
+      commentId,
+      userId,
+      reply_text: replyText, // Get reply text based on commentId
+    };
+
+    const config = {
+      method: 'post',
+      url: `${process.env.REACT_APP_NEXTTECH_DEV_URL}/comments/add-reply`,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify(replyData),
+    };
+
+    axios(config)
+      .then((response) => {
+        handleCommentOfPost();
+        setReplyText((prevState) => ({
+          ...prevState,
+          [commentId]: '', // Clear the reply text after posting
+        }));
+      })
+      .catch((error) => {
+        console.error('Error posting reply:', error);
+      });
+  };
+
   return (
     <div>
       <Dialog
@@ -173,7 +208,12 @@ const MyPostCardModal = ({ modalOpen, handleModalClose, postId }) => {
                           <FavoriteBorderOutlinedIcon /> {/* Like icon */}
                         </IconButton>
                         <IconButton color="secondary">
-                          <ReplyOutlinedIcon /> {/* Reply icon */}
+                          <ReplyOutlinedIcon
+                            onClick={() => {
+                              toggleShowReplies(comments._id);
+                            }}
+                          />{' '}
+                          {/* Reply icon */}
                         </IconButton>
                         {comments.replies.length > 0 && (
                           <>
@@ -197,13 +237,28 @@ const MyPostCardModal = ({ modalOpen, handleModalClose, postId }) => {
                       {/* Display sub-replies */}
                       {showReplies[comments._id] && (
                         <div>
+                          <TextField
+                            fullWidth
+                            variant="outlined"
+                            placeholder="Add a reply..."
+                            value={replyText}
+                            onChange={(e) => setReplyText(e.target.value)}
+                            InputProps={{
+                              endAdornment: (
+                                <IconButton color="primary" onClick={() => handleReplyComment(comments._id)}>
+                                  <ReplyOutlinedIcon /> {/* Replace with the Send icon */}
+                                </IconButton>
+                              ),
+                            }}
+                          />
+
                           {comments.replies.map((reply) => (
                             <div key={reply._id} style={{ marginLeft: '20px' }}>
                               <div style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
-                                <Avatar src={reply.author.profileImage} alt={reply.author.username} />
+                                {/* <Avatar src={reply.author.profileImage} alt={reply.author.username} /> */}
                                 <Typography style={{ marginLeft: '10px' }}>{reply.author.username}</Typography>
                               </div>
-                              <Typography>{reply.reply_text}</Typography>
+                              <Typography sx={{ fontSize: '16px' }}>{reply.reply_text}</Typography>
                             </div>
                           ))}
                         </div>
