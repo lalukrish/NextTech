@@ -17,6 +17,8 @@ import {
 import {
   FavoriteBorderOutlined as FavoriteBorderOutlinedIcon,
   ReplyOutlined as ReplyOutlinedIcon,
+  ExpandMore as ExpandMoreIcon,
+  ExpandLess as ExpandLessIcon,
 } from '@mui/icons-material';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -106,6 +108,15 @@ const MyPostCardModal = ({ modalOpen, handleModalClose, postId }) => {
       setText('');
     });
   };
+  const [showReplies, setShowReplies] = useState({}); // State to control showing/hiding sub-replies
+  // Toggle showing/hiding sub-replies
+  const toggleShowReplies = (commentId) => {
+    setShowReplies((prevState) => ({
+      ...prevState,
+      [commentId]: !prevState[commentId],
+    }));
+  };
+
   return (
     <div>
       <Dialog
@@ -164,7 +175,39 @@ const MyPostCardModal = ({ modalOpen, handleModalClose, postId }) => {
                         <IconButton color="secondary">
                           <ReplyOutlinedIcon /> {/* Reply icon */}
                         </IconButton>
+                        {comments.replies.length > 0 && (
+                          <>
+                            <IconButton
+                              onClick={() => toggleShowReplies(comments._id)}
+                              color="primary"
+                              aria-label="expand replies"
+                            >
+                              {showReplies[comments._id] ? (
+                                <ExpandLessIcon /> // Show collapse icon when replies are expanded
+                              ) : (
+                                <ExpandMoreIcon /> // Show expand icon when replies are collapsed
+                              )}
+                            </IconButton>
+                            <Typography variant="caption">
+                              {showReplies[comments._id] ? 'Collapse Replies' : 'See Replies'}
+                            </Typography>
+                          </>
+                        )}
                       </div>
+                      {/* Display sub-replies */}
+                      {showReplies[comments._id] && (
+                        <div>
+                          {comments.replies.map((reply) => (
+                            <div key={reply._id} style={{ marginLeft: '20px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
+                                <Avatar src={reply.author.profileImage} alt={reply.author.username} />
+                                <Typography style={{ marginLeft: '10px' }}>{reply.author.username}</Typography>
+                              </div>
+                              <Typography>{reply.reply_text}</Typography>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   ))
                 )}
