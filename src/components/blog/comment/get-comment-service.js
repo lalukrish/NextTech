@@ -15,4 +15,5 @@ const GetCommentService = async (postId) => {
   }
 };
 
+
 export default GetCommentService;
