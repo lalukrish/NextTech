@@ -23,6 +23,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { format, parseISO } from 'date-fns';
 import GetCommentService from '../blog/comment/get-comment-service';
 import AddReplyComment from '../blog/comment/add-reply-comment';
 
@@ -118,6 +119,13 @@ const MyPostCardModal = ({ modalOpen, handleModalClose, postId }) => {
     }));
   };
 
+  const formatUpdatedTime = (updatedTime) => {
+  if (updatedTime) {
+    const formattedTime = format(parseISO(updatedTime), "MMMM d, yyyy h:mm a"); // Format includes time
+    return `${formattedTime}`;
+  }
+  return '';
+};
   const [replyText, setReplyText] = useState();
   const handleReplyComment = (commentId) => {
     // Implement your reply functionality here
@@ -226,6 +234,7 @@ const MyPostCardModal = ({ modalOpen, handleModalClose, postId }) => {
                           />{' '}
                           {/* Reply icon */}
                         </IconButton>
+                         {formatUpdatedTime(comments.updatedAt)}
                         {comments.replies.length > 0 && (
                           <>
                             <IconButton

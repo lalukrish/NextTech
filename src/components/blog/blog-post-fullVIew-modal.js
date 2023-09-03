@@ -23,6 +23,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { format, parseISO } from 'date-fns';
 import GetCommentService from './comment/get-comment-service';
 import AddReplyComment from './comment/add-reply-comment';
 
@@ -117,6 +118,15 @@ const MyPostCardModal = ({ modalOpen, handleModalClose, postId }) => {
       [commentId]: !prevState[commentId],
     }));
   };
+  // Function to format updated time and date
+const formatUpdatedTime = (updatedTime) => {
+  if (updatedTime) {
+    const formattedTime = format(parseISO(updatedTime), "MMMM d, yyyy h:mm a"); // Format includes time
+    return `${formattedTime}`;
+  }
+  return '';
+};
+
 
   const [replyText, setReplyText] = useState();
   const handleReplyComment = (commentId) => {
@@ -162,7 +172,9 @@ const MyPostCardModal = ({ modalOpen, handleModalClose, postId }) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <DialogTitle id="modal-modal-title">Posts</DialogTitle>
+        <DialogTitle id="modal-modal-title">
+          Posts
+        </DialogTitle>
         <DialogContent>
           <div style={{ display: 'flex' }}>
             <Card style={{ flex: 1, marginRight: '20px' }}>
@@ -201,9 +213,11 @@ const MyPostCardModal = ({ modalOpen, handleModalClose, postId }) => {
                       <div style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
                         {/* <Avatar src={comment.author.profileImage} alt={comment.author.username} /> */}
                         <Typography style={{ marginLeft: '10px' }}>{comments.author.username}</Typography>
+                        
                       </div>
                       <Typography>{comments.text}</Typography>
                       <div style={{ marginTop: '10px' }}>
+                      
                         <IconButton color="primary">
                           <FavoriteBorderOutlinedIcon /> {/* Like icon */}
                         </IconButton>
@@ -212,9 +226,11 @@ const MyPostCardModal = ({ modalOpen, handleModalClose, postId }) => {
                             onClick={() => {
                               toggleShowReplies(comments._id);
                             }}
+                            
                           />{' '}
                           {/* Reply icon */}
                         </IconButton>
+                        {formatUpdatedTime(comments.updatedAt)}
                         {comments.replies.length > 0 && (
                           <>
                             <IconButton
