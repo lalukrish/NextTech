@@ -128,10 +128,7 @@ const MyPostCardModal = ({ modalOpen, handleModalClose, postId }) => {
 };
   const [replyText, setReplyText] = useState();
   const handleReplyComment = (commentId) => {
-    // Implement your reply functionality here
-    // You can use the replyText state to send the reply text to the server
-    // After posting the reply, you can update the UI and clear the replyText state
-    
+   
     const replyData = {
       commentId,
       userId,

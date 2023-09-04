@@ -27,6 +27,9 @@ import { format, parseISO } from 'date-fns';
 import GetCommentService from './comment/get-comment-service';
 import AddReplyComment from './comment/add-reply-comment';
 
+
+
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -121,18 +124,28 @@ const MyPostCardModal = ({ modalOpen, handleModalClose, postId }) => {
   // Function to format updated time and date
 const formatUpdatedTime = (updatedTime) => {
   if (updatedTime) {
-    const formattedTime = format(parseISO(updatedTime), "MMMM d, yyyy h:mm a"); // Format includes time
+    const formattedTime = format(parseISO(updatedTime), "MMM d, yyyy h:mm a"); // Format includes time
     return `${formattedTime}`;
   }
   return '';
 };
 
+const [postLikes, setPostLikes] = useState(0); 
+const [isLiked, setIsLiked] = useState(false); 
 
+
+const handleLikePost = () => {
+  if (isLiked) {
+    setPostLikes(postLikes - 1);
+    setIsLiked(false);
+
+  } else {
+    setPostLikes(postLikes + 1);
+    setIsLiked(true);
+  }
+};
   const [replyText, setReplyText] = useState();
   const handleReplyComment = (commentId) => {
-    // Implement your reply functionality here
-    // You can use the replyText state to send the reply text to the server
-    // After posting the reply, you can update the UI and clear the replyText state
 
     const replyData = {
       commentId,
@@ -176,6 +189,9 @@ const formatUpdatedTime = (updatedTime) => {
           Posts
         </DialogTitle>
         <DialogContent>
+        <CardActions>
+    {postLikes} Likes
+  </CardActions>
           <div style={{ display: 'flex' }}>
             <Card style={{ flex: 1, marginRight: '20px' }}>
               {' '}
@@ -186,11 +202,23 @@ const formatUpdatedTime = (updatedTime) => {
                     <img src={post?.image_url} alt="Post" style={{ width: '100%', maxHeight: '600px' }} />
                     <Typography>{post?.description}</Typography>
                   </>
+                  
                 ) : (
                   <p>No post to display</p>
                 )}
               </CardContent>
-            </Card>
+
+              <CardActions>
+    <IconButton color="primary" onClick={handleLikePost}>
+      <FavoriteBorderOutlinedIcon color={isLiked ? 'primary' : 'inherit'} />
+    </IconButton>
+    {postLikes} Likes
+  </CardActions>
+</Card>
+
+
+
+            
 
             <Card style={{ flex: 1, maxHeight: '600px', overflowY: 'auto' }}>
               <CardContent>

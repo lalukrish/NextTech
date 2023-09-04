@@ -12,12 +12,19 @@ import Avatar from '@mui/material/Avatar';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
+import {
+  // ... other imports ...
+  FavoriteBorderOutlined as FavoriteBorderOutlinedIcon,
+  Favorite as FavoriteIcon, // Import FavoriteIcon
+  // ... other imports ...
+} from '@mui/icons-material';
+
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import myPostsSservice from './my-posts-service';
 import MyPostCardModal from './my-post-modalView';
+
 
 // interface ExpandMoreProps extends IconButtonProps {
 //   expand: boolean;
@@ -51,6 +58,20 @@ const MyPostCard = () => {
     });
   };
 
+  const [postLikes, setPostLikes] = useState(0); 
+  const [isLiked, setIsLiked] = useState(false); 
+  
+  const handleLikePost = () => {
+    if (isLiked) {
+      setPostLikes(postLikes - 1);
+      setIsLiked(false);
+  
+    } else {
+      setPostLikes(postLikes + 1);
+      setIsLiked(true);
+    }
+  };
+
   useEffect(() => {
     handleAllPosts();
   }, []);
@@ -71,6 +92,7 @@ const MyPostCard = () => {
   };
 
   console.log("postId--->",postId)
+
   return (
     <>
       <MyPostCardModal modalOpen={modalOpen} handleModalClose={handleModalClose} postId={postId} />
@@ -104,9 +126,14 @@ const MyPostCard = () => {
                 />
 
                 <CardActions disableSpacing>
-                  <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                  </IconButton>
+                <IconButton color="primary" onClick={() => {handleLikePost({ id: posts._id });setIsLiked(!isLiked)}}>
+  {isLiked ? (
+    <FavoriteIcon color="error" /> 
+  ) : (
+    <FavoriteBorderOutlinedIcon /> 
+  )}
+</IconButton>
+<Typography>{postLikes} Likes</Typography>
                   <IconButton aria-label="share">
                     <ShareIcon />
                   </IconButton>

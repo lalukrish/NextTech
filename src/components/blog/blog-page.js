@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Avatar, Button, Card, CardContent, CardActions, CardHeader, IconButton, Typography } from '@mui/material';
-import { Favorite as FavoriteIcon, ChatBubbleOutline as ChatBubbleOutlineIcon, AddComment } from '@mui/icons-material';
+import { Favorite as FavoriteIcon,FavoriteBorderOutlined as FavoriteBorderOutlinedIcon, ChatBubbleOutline as ChatBubbleOutlineIcon, AddComment } from '@mui/icons-material';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import MyPostCardModal from './blog-post-fullVIew-modal';
+
+
+
 
 const BlogPageResults = () => {
   const userName = useSelector((state) => state.myprofile?.successMessage?.data?.user?.full_name);
@@ -52,6 +55,19 @@ const BlogPageResults = () => {
   };
 
   console.log('postid______>', postId);
+  const [postLikes, setPostLikes] = useState(0); 
+const [isLiked, setIsLiked] = useState(false); 
+
+const handleLikePost = () => {
+  if (isLiked) {
+    setPostLikes(postLikes - 1);
+    setIsLiked(false);
+
+  } else {
+    setPostLikes(postLikes + 1);
+    setIsLiked(true);
+  }
+};
 
   return (
     <>
@@ -65,15 +81,21 @@ const BlogPageResults = () => {
               <img src={posts?.image_url} alt="Post" style={{ width: '600px', maxHeight: '600px' }} />
             </CardContent>
             <CardActions disableSpacing>
-              <IconButton>
-                <FavoriteIcon color="error" />
-              </IconButton>
-              {/* <Typography>{post?.likes}</Typography> */}
+              
+            <IconButton color="primary" onClick={() => {handleLikePost();setIsLiked(!isLiked)}}>
+  {isLiked ? (
+    <FavoriteIcon color="error" /> 
+  ) : (
+    <FavoriteBorderOutlinedIcon /> 
+  )}
+</IconButton>
+<Typography>{postLikes} Likes</Typography>
+
               <IconButton>
                 <Button
                   onClick={() => {
-                    handleValue({ id: posts._id }); // Pass the id to handleValue function
-                    handleModalOpen(); // Open the modal
+                    handleValue({ id: posts._id });
+                    handleModalOpen(); 
                   }}
                 >
                   <ChatBubbleOutlineIcon />
