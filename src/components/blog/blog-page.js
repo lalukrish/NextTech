@@ -19,12 +19,13 @@ const BlogPageResults = () => {
   const userProfileImage = useSelector((state) => state.myprofilepic?.successMessage?.data?.data?.profile_image_url);
   const [profileImage, setProfileImage] = useState(userProfileImage);
 
-  // Use useEffect to update profileImage when userProfileImage changes
   useEffect(() => {
     setProfileImage(userProfileImage);
-  }, [userProfileImage]); // This dependency array ensures the effect runs when userProfileImage changes
-
+  }, [userProfileImage]);
+  const [likedList, setAllLikedList] = useState([]);
   const [post, allPost] = useState([]);
+  const [isLikedMap, setIsLikedMap] = useState({});
+
   const handleAllPosts = () => {
     const config = {
       method: 'get',
@@ -33,16 +34,20 @@ const BlogPageResults = () => {
     };
     axios(config).then((response) => {
       const data = response.data.posts;
+
       console.log('all post', data);
       allPost(data);
+      const likedMap = {};
+      data.forEach((post) => {
+        likedMap[post._id] = post.likedBy.includes(userid);
+      });
+      setIsLikedMap(likedMap);
     });
   };
 
   useEffect(() => {
     handleAllPosts();
   }, []);
-
-  console.log('iam here', post);
 
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -59,20 +64,69 @@ console.log("im here",postId)
     setPostId(postId.id);
   };
 
-  console.log('postid______>', postId);
-  const [postLikes, setPostLikes] = useState(0); 
-const [isLiked, setIsLiked] = useState(false); 
+  const handleSetLike = (postid) => {
+    const config = {
+      method: 'post',
+      url: `${process.env.REACT_APP_NEXTTECH_DEV_URL}/comments/add-like`,
+      data: {
+        userid,
+        postid,
+      },
+      headers: {
+        // Add any headers you need here
+      },
+    };
+    axios(config).then((response) => {
+      const data = response.data;
+      console.log('all post', data);
+      setIsLiked(true);
+      handleAllPosts();
+    });
+  };
 
-const handleLikePost = () => {
-  if (isLiked) {
-    setPostLikes(postLikes - 1);
-    setIsLiked(false);
+  const handleUnLike = (postid) => {
+    const config = {
+      method: 'post',
+      url: `${process.env.REACT_APP_NEXTTECH_DEV_URL}/comments/unlike-post`,
+      data: {
+        userid,
+        postid,
+      },
+      headers: {
+        // Add any headers you need here
+      },
+    };
+    axios(config).then((response) => {
+      const data = response.data;
+      console.log('all post', data);
+      setIsLiked(false);
+      handleAllPosts();
+    });
+  };
 
-  } else {
-    setPostLikes(postLikes + 1);
-    setIsLiked(true);
-  }
-};
+  const [postLikes, setPostLikes] = useState(0);
+  const [isLiked, setIsLiked] = useState(false);
+  console.log('likedList:', isLikedMap); // To store whether each post is liked by the current user
+
+  const handleLikePost = (postid) => {
+    if (isLikedMap[postid]) {
+      setPostLikes(postLikes - 1);
+      setIsLiked(false);
+      handleUnLike(postid);
+      // User has already liked this post, handle accordingly
+      console.log('User has already liked this post');
+    } else {
+      setPostLikes(postLikes + 1);
+
+      setIsLiked(true);
+      handleSetLike(postid);
+      // Perform the like action (replace with your like logic)
+      console.log('Like post with ID', postid);
+
+      // Update isLikedMap to indicate that the user has liked this post
+      setIsLikedMap({ ...isLikedMap, [postid]: true });
+    }
+  };
 
   return (
     <>
@@ -86,15 +140,16 @@ const handleLikePost = () => {
               <img src={posts?.image_url} alt="Post" style={{ width: '600px', maxHeight: '600px' }} />
             </CardContent>
             <CardActions disableSpacing>
-              
-            <IconButton color="primary" onClick={() => {handleLikePost();setIsLiked(!isLiked)}}>
-  {isLiked ? (
-    <FavoriteIcon color="error" /> 
-  ) : (
-    <FavoriteBorderOutlinedIcon /> 
-  )}
-</IconButton>
-<Typography>{postLikes} Likes</Typography>
+              <IconButton
+                color="primary"
+                onClick={() => {
+                  handleLikePost(posts._id);
+                }}
+              >
+                {isLikedMap[posts._id] ? <FavoriteIcon color="error" /> : <FavoriteBorderOutlinedIcon />}
+              </IconButton>
+
+              <Typography>{posts.number_likes} Likes</Typography>
 
               <IconButton>
                 <Button
