@@ -17,12 +17,13 @@ const BlogPageResults = () => {
   const userProfileImage = useSelector((state) => state.myprofilepic?.successMessage?.data?.data?.profile_image_url);
   const [profileImage, setProfileImage] = useState(userProfileImage);
 
-  // Use useEffect to update profileImage when userProfileImage changes
   useEffect(() => {
     setProfileImage(userProfileImage);
-  }, [userProfileImage]); // This dependency array ensures the effect runs when userProfileImage changes
-
+  }, [userProfileImage]);
+  const [likedList, setAllLikedList] = useState([]);
   const [post, allPost] = useState([]);
+  const [isLikedMap, setIsLikedMap] = useState({});
+
   const handleAllPosts = () => {
     const config = {
       method: 'get',
@@ -31,16 +32,20 @@ const BlogPageResults = () => {
     };
     axios(config).then((response) => {
       const data = response.data.posts;
+
       console.log('all post', data);
       allPost(data);
+      const likedMap = {};
+      data.forEach((post) => {
+        likedMap[post._id] = post.likedBy.includes(userid);
+      });
+      setIsLikedMap(likedMap);
     });
   };
 
   useEffect(() => {
     handleAllPosts();
   }, []);
-
-  console.log('iam here', post);
 
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -56,8 +61,6 @@ const BlogPageResults = () => {
   const handleValue = (postId) => {
     setPostId(postId.id);
   };
-
-  console.log('postid______>', postId);
 
   const handleSetLike = (postid) => {
     const config = {
@@ -101,16 +104,25 @@ const BlogPageResults = () => {
 
   const [postLikes, setPostLikes] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
+  console.log('likedList:', isLikedMap); // To store whether each post is liked by the current user
 
   const handleLikePost = (postid) => {
-    if (isLiked) {
+    if (isLikedMap[postid]) {
       setPostLikes(postLikes - 1);
       setIsLiked(false);
       handleUnLike(postid);
+      // User has already liked this post, handle accordingly
+      console.log('User has already liked this post');
     } else {
       setPostLikes(postLikes + 1);
+
       setIsLiked(true);
       handleSetLike(postid);
+      // Perform the like action (replace with your like logic)
+      console.log('Like post with ID', postid);
+
+      // Update isLikedMap to indicate that the user has liked this post
+      setIsLikedMap({ ...isLikedMap, [postid]: true });
     }
   };
 
@@ -132,8 +144,9 @@ const BlogPageResults = () => {
                   handleLikePost(posts._id);
                 }}
               >
-                {isLiked ? <FavoriteIcon color="error" /> : <FavoriteBorderOutlinedIcon />}
+                {isLikedMap[posts._id] ? <FavoriteIcon color="error" /> : <FavoriteBorderOutlinedIcon />}
               </IconButton>
+
               <Typography>{posts.number_likes} Likes</Typography>
 
               <IconButton>
