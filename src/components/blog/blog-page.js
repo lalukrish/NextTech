@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Avatar, Button, Card, CardContent, CardActions, CardHeader, IconButton, Typography } from '@mui/material';
-import { Favorite as FavoriteIcon,FavoriteBorderOutlined as FavoriteBorderOutlinedIcon, ChatBubbleOutline as ChatBubbleOutlineIcon, AddComment } from '@mui/icons-material';
+import {
+  Favorite as FavoriteIcon,
+  FavoriteBorderOutlined as FavoriteBorderOutlinedIcon,
+  ChatBubbleOutline as ChatBubbleOutlineIcon,
+  AddComment,
+} from '@mui/icons-material';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import MyPostCardModal from './blog-post-fullVIew-modal';
-import GetAllLikesServices from './likes/get-allLikes-service';
 
 
 
 
 const BlogPageResults = () => {
-const userid=localStorage.getItem("USER_ID")
   const userName = useSelector((state) => state.myprofile?.successMessage?.data?.user?.full_name);
 
   const userProfileImage = useSelector((state) => state.myprofilepic?.successMessage?.data?.data?.profile_image_url);
@@ -57,60 +60,23 @@ console.log("im here",postId)
   };
 
   console.log('postid______>', postId);
-  
-
-  const [postLikes, setPostLikes] = useState(0);
-  const [isLiked, setIsLiked] = useState(false);
-
-  // Define a function to send a POST request to the API to like a post
-const handleLikePostApi = (postId) => {
-  console.log("im inside ()",postId)
-  const data = {
-     userid,
-    postid: postId, 
-  };
-
-  const config = {
-    method: 'post',
-    url: `${process.env.REACT_APP_NEXTTECH_DEV_URL}/comments/add-like`,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data: JSON.stringify(data),
-  };
-
-  axios(config)
-    .then((response) => {
-      
-      if (response.data.success) {
-        
-        setIsLiked(true);
-        
-      }
-    })
-    .catch((error) => {
-      console.error('Error liking the post:', error);
-    });
-};
-
-// const handlegetAllLikes=()=>{
-//   GetAllLikesServices()
-// }
+  const [postLikes, setPostLikes] = useState(0); 
+const [isLiked, setIsLiked] = useState(false); 
 
 const handleLikePost = () => {
   if (isLiked) {
-   
+    setPostLikes(postLikes - 1);
     setIsLiked(false);
-   
+
   } else {
-    
-    handleLikePostApi();
-    
+    setPostLikes(postLikes + 1);
+    setIsLiked(true);
+  }
 };
-}
+
   return (
     <>
-       <MyPostCardModal modalOpen={modalOpen} handleModalClose={handleModalClose} postId={postId} />
+      <MyPostCardModal modalOpen={modalOpen} handleModalClose={handleModalClose} postId={postId} />
       <div>
         <Typography variant="h5">Posts</Typography>
         {post.map((posts) => (
@@ -121,7 +87,7 @@ const handleLikePost = () => {
             </CardContent>
             <CardActions disableSpacing>
               
-            <IconButton color="primary" onClick={() => {handleLikePostApi(posts._id);setIsLiked(!isLiked)}}>
+            <IconButton color="primary" onClick={() => {handleLikePost();setIsLiked(!isLiked)}}>
   {isLiked ? (
     <FavoriteIcon color="error" /> 
   ) : (
@@ -134,7 +100,7 @@ const handleLikePost = () => {
                 <Button
                   onClick={() => {
                     handleValue({ id: posts._id });
-                    handleModalOpen(); 
+                    handleModalOpen();
                   }}
                 >
                   <ChatBubbleOutlineIcon />
