@@ -4,11 +4,13 @@ import { Favorite as FavoriteIcon,FavoriteBorderOutlined as FavoriteBorderOutlin
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import MyPostCardModal from './blog-post-fullVIew-modal';
+import GetAllLikesServices from './likes/get-allLikes-service';
 
 
 
 
 const BlogPageResults = () => {
+const userid=localStorage.getItem("USER_ID")
   const userName = useSelector((state) => state.myprofile?.successMessage?.data?.user?.full_name);
 
   const userProfileImage = useSelector((state) => state.myprofilepic?.successMessage?.data?.data?.profile_image_url);
@@ -49,26 +51,63 @@ const BlogPageResults = () => {
   };
 
   const [postId, setPostId] = useState();
-
+console.log("im here",postId)
   const handleValue = (postId) => {
     setPostId(postId.id);
   };
 
   console.log('postid______>', postId);
-  const [postLikes, setPostLikes] = useState(0); 
-const [isLiked, setIsLiked] = useState(false); 
+  
+
+  const [postLikes, setPostLikes] = useState(0);
+  const [isLiked, setIsLiked] = useState(false);
+
+  // Define a function to send a POST request to the API to like a post
+const handleLikePostApi = (postId) => {
+  console.log("im inside ()",postId)
+  const data = {
+     userid,
+    postid: postId, 
+  };
+
+  const config = {
+    method: 'post',
+    url: `${process.env.REACT_APP_NEXTTECH_DEV_URL}/comments/add-like`,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: JSON.stringify(data),
+  };
+
+  axios(config)
+    .then((response) => {
+      
+      if (response.data.success) {
+        
+        setIsLiked(true);
+        
+      }
+    })
+    .catch((error) => {
+      console.error('Error liking the post:', error);
+    });
+};
+
+// const handlegetAllLikes=()=>{
+//   GetAllLikesServices()
+// }
 
 const handleLikePost = () => {
   if (isLiked) {
-    setPostLikes(postLikes - 1);
+   
     setIsLiked(false);
-
+   
   } else {
-    setPostLikes(postLikes + 1);
-    setIsLiked(true);
-  }
+    
+    handleLikePostApi();
+    
 };
-
+}
   return (
     <>
        <MyPostCardModal modalOpen={modalOpen} handleModalClose={handleModalClose} postId={postId} />
@@ -82,7 +121,7 @@ const handleLikePost = () => {
             </CardContent>
             <CardActions disableSpacing>
               
-            <IconButton color="primary" onClick={() => {handleLikePost();setIsLiked(!isLiked)}}>
+            <IconButton color="primary" onClick={() => {handleLikePostApi(posts._id);setIsLiked(!isLiked)}}>
   {isLiked ? (
     <FavoriteIcon color="error" /> 
   ) : (
