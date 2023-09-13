@@ -174,6 +174,7 @@ const handleLikePost = () => {
         console.error('Error posting reply:', error);
       });
   };
+  
 
   return (
     <div>

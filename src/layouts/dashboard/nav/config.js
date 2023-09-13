@@ -7,13 +7,23 @@ const icon = (name) => <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ 
 
 const navConfig = [
   {
-    title: 'dashboard',
-    path: '/dashboard/app',
+    title: 'Home',
+    path: '/dashboard/blog',
     icon: icon('ic_analytics'),
   },
   {
-    title: 'user',
-    path: '/dashboard/user',
+    title: 'Start Career',
+    path: '/dashboard/app',
+    icon: icon('ic_analytics'),
+  },
+  // {
+  //   title: 'user',
+  //   path: '/dashboard/user',
+  //   icon: icon('ic_user'),
+  // },
+  {
+    title: 'Latest You Go',
+    path: '/dashboard/latestyougo',
     icon: icon('ic_user'),
   },
   {
@@ -21,16 +31,16 @@ const navConfig = [
     path: '/dashboard/my-collection',
     icon: icon('ic_cart'),
   },
-  {
-    title: 'blog',
-    path: '/dashboard/blog',
-    icon: icon('ic_blog'),
-  },
-  {
-    title: 'login',
-    path: '/login',
-    icon: icon('ic_lock'),
-  },
+  // {
+  //   title: 'blog',
+  //   path: '/dashboard/blog',
+  //   icon: icon('ic_blog'),
+  // },
+  // {
+  //   title: 'login',
+  //   path: '/login',
+  //   icon: icon('ic_lock'),
+  // },
   {
     title: 'Not found',
     path: '/404',

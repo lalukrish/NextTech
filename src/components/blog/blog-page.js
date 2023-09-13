@@ -9,6 +9,7 @@ import {
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import MyPostCardModal from './blog-post-fullVIew-modal';
+import GetAllLikesServices from './likes/get-allLikes-service';
 
 const BlogPageResults = () => {
   const userid = localStorage.getItem('USER_ID');
@@ -57,80 +58,60 @@ const BlogPageResults = () => {
   };
 
   const [postId, setPostId] = useState();
-
+  console.log('im here', postId);
   const handleValue = (postId) => {
     setPostId(postId.id);
   };
 
-  const handleSetLike = (postid) => {
-    const config = {
-      method: 'post',
-      url: `${process.env.REACT_APP_NEXTTECH_DEV_URL}/comments/add-like`,
-      data: {
-        userid,
-        postid,
-      },
-      headers: {
-        // Add any headers you need here
-      },
-    };
-    axios(config).then((response) => {
-      const data = response.data;
-      console.log('all post', data);
-      setIsLiked(true);
-      handleAllPosts();
-    });
-  };
-
-  const handleUnLike = (postid) => {
-    const config = {
-      method: 'post',
-      url: `${process.env.REACT_APP_NEXTTECH_DEV_URL}/comments/unlike-post`,
-      data: {
-        userid,
-        postid,
-      },
-      headers: {
-        // Add any headers you need here
-      },
-    };
-    axios(config).then((response) => {
-      const data = response.data;
-      console.log('all post', data);
-      setIsLiked(false);
-      handleAllPosts();
-    });
-  };
+  console.log('postid______>', postId);
 
   const [postLikes, setPostLikes] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
-  console.log('likedList:', isLikedMap); // To store whether each post is liked by the current user
 
-  const handleLikePost = (postid) => {
-    if (isLikedMap[postid]) {
-      setPostLikes(postLikes - 1);
-      setIsLiked(false);
-      handleUnLike(postid);
-      // User has already liked this post, handle accordingly
-      console.log('User has already liked this post');
-    } else {
-      setPostLikes(postLikes + 1);
+  // Define a function to send a POST request to the API to like a post
+  const handleLikePostApi = (postId) => {
+    console.log('im inside ()', postId);
+    const data = {
+      userid,
+      postid: postId,
+    };
 
-      setIsLiked(true);
-      handleSetLike(postid);
-      // Perform the like action (replace with your like logic)
-      console.log('Like post with ID', postid);
+    const config = {
+      method: 'post',
+      url: `${process.env.REACT_APP_NEXTTECH_DEV_URL}/comments/add-like`,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify(data),
+    };
 
-      // Update isLikedMap to indicate that the user has liked this post
-      setIsLikedMap({ ...isLikedMap, [postid]: true });
-    }
+    axios(config)
+      .then((response) => {
+        if (response.data.success) {
+          setIsLiked(true);
+        }
+      })
+      .catch((error) => {
+        console.error('Error liking the post:', error);
+      });
   };
 
+  // const handlegetAllLikes=()=>{
+  //   GetAllLikesServices()
+  // }
+
+  const handleLikePost = () => {
+    if (isLiked) {
+      setIsLiked(false);
+    } else {
+      handleLikePostApi();
+    }
+  };
   return (
     <>
       <MyPostCardModal modalOpen={modalOpen} handleModalClose={handleModalClose} postId={postId} />
-      <div>
-        <Typography variant="h5">Posts</Typography>
+      <div style={{ marginTop: 6 }}>
+        {/* <Typography variant="h5">Posts</Typography> */}
         {post.map((posts) => (
           <Card style={{ marginBottom: '20px' }}>
             <CardHeader avatar={<Avatar src={profileImage} alt={post?.username} />} title={userName} />
@@ -141,13 +122,13 @@ const BlogPageResults = () => {
               <IconButton
                 color="primary"
                 onClick={() => {
-                  handleLikePost(posts._id);
+                  handleLikePostApi(posts._id);
+                  setIsLiked(!isLiked);
                 }}
               >
-                {isLikedMap[posts._id] ? <FavoriteIcon color="error" /> : <FavoriteBorderOutlinedIcon />}
+                {isLiked ? <FavoriteIcon color="error" /> : <FavoriteBorderOutlinedIcon />}
               </IconButton>
-
-              <Typography>{posts.number_likes} Likes</Typography>
+              <Typography>{postLikes} Likes</Typography>
 
               <IconButton>
                 <Button

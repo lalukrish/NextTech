@@ -13,6 +13,8 @@ import SingupPage from './pages/SingupPage';
 import Settings from './pages/Settings';
 import AddPost from './pages/AddPost';
 import MyCollection from './pages/MyCollection';
+import StartCareer from './pages/LatestYouGo';
+import LatestYouGo from './components/careers/latest-you-go';
 
 // ----------------------------------------------------------------------
 
@@ -22,11 +24,17 @@ export default function Router() {
       path: '/dashboard',
       element: <DashboardLayout />,
       children: [
-        { element: <Navigate to="/dashboard/app" />, index: true },
-        { path: 'app', element: <DashboardAppPage /> },
-        { path: 'user', element: <UserPage /> },
-        { path: 'my-collection', element: <MyCollection /> },
+        // {
+        //   path: 'blog',
+        //   element: <Navigate to="/dashboard/blog" />,
+        // },
+        { element: <Navigate to="/dashboard/blog" />, index: true },
         { path: 'blog', element: <BlogPage /> },
+        { path: 'app', element: <DashboardAppPage /> },
+        { path: 'Latestyougo', element: <LatestYouGo /> },
+        // { path: 'user', element: <UserPage /> },
+        { path: 'my-collection', element: <MyCollection /> },
+        // { path: 'blog', element: <BlogPage /> },
         { path: 'settings', element: <Settings /> },
       ],
     },
