@@ -14,6 +14,7 @@ import MyPostCardModal from './blog-post-fullVIew-modal';
 
 
 const BlogPageResults = () => {
+const userid=localStorage.getItem("USER_ID")
   const userName = useSelector((state) => state.myprofile?.successMessage?.data?.user?.full_name);
 
   const userProfileImage = useSelector((state) => state.myprofilepic?.successMessage?.data?.data?.profile_image_url);
