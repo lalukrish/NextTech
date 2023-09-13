@@ -39,7 +39,7 @@ export default function LoginForm() {
       const resMessage = data.payload.data.message;
       console.log('data', data);
       if (resMessage === 'Login successfull') {
-        navigate('/dashboard/app/');
+        navigate('/dashboard/blog/');
       }
     });
   };

@@ -25,7 +25,6 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import myPostsSservice from './my-posts-service';
 import MyPostCardModal from './my-post-modalView';
 
-
 // interface ExpandMoreProps extends IconButtonProps {
 //   expand: boolean;
 // }
@@ -58,14 +57,13 @@ const MyPostCard = () => {
     });
   };
 
-  const [postLikes, setPostLikes] = useState(0); 
-  const [isLiked, setIsLiked] = useState(false); 
-  
+  const [postLikes, setPostLikes] = useState(0);
+  const [isLiked, setIsLiked] = useState(false);
+
   const handleLikePost = () => {
     if (isLiked) {
       setPostLikes(postLikes - 1);
       setIsLiked(false);
-  
     } else {
       setPostLikes(postLikes + 1);
       setIsLiked(true);
@@ -91,7 +89,7 @@ const MyPostCard = () => {
     setPostId(postId);
   };
 
-  console.log("postId--->",postId)
+  console.log('postId--->', postId);
 
   return (
     <>
@@ -126,14 +124,16 @@ const MyPostCard = () => {
                 />
 
                 <CardActions disableSpacing>
-                <IconButton color="primary" onClick={() => {handleLikePost({ id: posts._id });setIsLiked(!isLiked)}}>
-  {isLiked ? (
-    <FavoriteIcon color="error" /> 
-  ) : (
-    <FavoriteBorderOutlinedIcon /> 
-  )}
-</IconButton>
-<Typography>{postLikes} Likes</Typography>
+                  <IconButton
+                    color="primary"
+                    onClick={() => {
+                      handleLikePost({ id: posts._id });
+                      setIsLiked(!isLiked);
+                    }}
+                  >
+                    {isLiked ? <FavoriteIcon color="error" /> : <FavoriteBorderOutlinedIcon />}
+                  </IconButton>
+                  <Typography>{postLikes} Likes</Typography>
                   <IconButton aria-label="share">
                     <ShareIcon />
                   </IconButton>
