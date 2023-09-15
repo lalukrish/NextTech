@@ -65,8 +65,8 @@ const SimpleCard = () => {
                 VBook
               </Button>
 
-              <NotificationsIcon style={{ marginLeft: '200px', fontSize: '24px', color: 'blue' }} />
-              <Avatar alt="User Avatar" src="/avatar.jpg" sx={{ marginLeft: '10px' }} />
+              <NotificationsIcon style={{ marginLeft: '80px', fontSize: '40px', color: 'blue' }} />
+              <Avatar alt="User Avatar" src="/avatar.jpg" size="large" sx={{ marginLeft: '50px', weight: '70px', height: '50px' }} />
             </div>
           </div>
         </CardContent>
