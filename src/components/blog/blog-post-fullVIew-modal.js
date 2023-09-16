@@ -27,9 +27,6 @@ import { format, parseISO } from 'date-fns';
 import GetCommentService from './comment/get-comment-service';
 import AddReplyComment from './comment/add-reply-comment';
 
-
-
-
 const style = {
   position: 'absolute',
   top: '50%',
@@ -122,31 +119,28 @@ const MyPostCardModal = ({ modalOpen, handleModalClose, postId }) => {
     }));
   };
   // Function to format updated time and date
-const formatUpdatedTime = (updatedTime) => {
-  if (updatedTime) {
-    const formattedTime = format(parseISO(updatedTime), "MMM d, yyyy h:mm a"); // Format includes time
-    return `${formattedTime}`;
-  }
-  return '';
-};
+  const formatUpdatedTime = (updatedTime) => {
+    if (updatedTime) {
+      const formattedTime = format(parseISO(updatedTime), 'MMM d, yyyy h:mm a'); // Format includes time
+      return `${formattedTime}`;
+    }
+    return '';
+  };
 
-const [postLikes, setPostLikes] = useState(0); 
-const [isLiked, setIsLiked] = useState(false); 
+  const [postLikes, setPostLikes] = useState(0);
+  const [isLiked, setIsLiked] = useState(false);
 
-
-const handleLikePost = () => {
-  if (isLiked) {
-    setPostLikes(postLikes - 1);
-    setIsLiked(false);
-
-  } else {
-    setPostLikes(postLikes + 1);
-    setIsLiked(true);
-  }
-};
+  const handleLikePost = () => {
+    if (isLiked) {
+      setPostLikes(postLikes - 1);
+      setIsLiked(false);
+    } else {
+      setPostLikes(postLikes + 1);
+      setIsLiked(true);
+    }
+  };
   const [replyText, setReplyText] = useState();
   const handleReplyComment = (commentId) => {
-
     const replyData = {
       commentId,
       userId,
@@ -169,12 +163,12 @@ const handleLikePost = () => {
           ...prevState,
           [commentId]: '', // Clear the reply text after posting
         }));
+        setReplyText('');
       })
       .catch((error) => {
         console.error('Error posting reply:', error);
       });
   };
-  
 
   return (
     <div>
@@ -186,13 +180,9 @@ const handleLikePost = () => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <DialogTitle id="modal-modal-title">
-          Posts
-        </DialogTitle>
+        <DialogTitle id="modal-modal-title">Posts</DialogTitle>
         <DialogContent>
-        <CardActions>
-    {postLikes} Likes
-  </CardActions>
+          <CardActions>{postLikes} Likes</CardActions>
           <div style={{ display: 'flex' }}>
             <Card style={{ flex: 1, marginRight: '20px' }}>
               {' '}
@@ -203,23 +193,17 @@ const handleLikePost = () => {
                     <img src={post?.image_url} alt="Post" style={{ width: '100%', maxHeight: '600px' }} />
                     <Typography>{post?.description}</Typography>
                   </>
-                  
                 ) : (
                   <p>No post to display</p>
                 )}
               </CardContent>
-
               <CardActions>
-    <IconButton color="primary" onClick={handleLikePost}>
-      <FavoriteBorderOutlinedIcon color={isLiked ? 'primary' : 'inherit'} />
-    </IconButton>
-    {postLikes} Likes
-  </CardActions>
-</Card>
-
-
-
-            
+                <IconButton color="primary" onClick={handleLikePost}>
+                  <FavoriteBorderOutlinedIcon color={isLiked ? 'primary' : 'inherit'} />
+                </IconButton>
+                {postLikes} Likes
+              </CardActions>
+            </Card>
 
             <Card style={{ flex: 1, maxHeight: '600px', overflowY: 'auto' }}>
               <CardContent>
@@ -242,11 +226,9 @@ const handleLikePost = () => {
                       <div style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
                         {/* <Avatar src={comment.author.profileImage} alt={comment.author.username} /> */}
                         <Typography style={{ marginLeft: '10px' }}>{comments.author.username}</Typography>
-                        
                       </div>
                       <Typography>{comments.text}</Typography>
                       <div style={{ marginTop: '10px' }}>
-                      
                         <IconButton color="primary">
                           <FavoriteBorderOutlinedIcon /> {/* Like icon */}
                         </IconButton>
@@ -255,7 +237,6 @@ const handleLikePost = () => {
                             onClick={() => {
                               toggleShowReplies(comments._id);
                             }}
-                            
                           />{' '}
                           {/* Reply icon */}
                         </IconButton>
