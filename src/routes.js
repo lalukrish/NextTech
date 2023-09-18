@@ -13,8 +13,8 @@ import SingupPage from './pages/SingupPage';
 import Settings from './pages/Settings';
 import AddPost from './pages/AddPost';
 import MyCollection from './pages/MyCollection';
-import StartCareer from './pages/LatestYouGo';
-import LatestYouGo from './components/careers/latest-you-go';
+import StartCareer from './pages/Career-Home';
+import LatestYouGo from './components/careers/career-intro-page';
 
 // ----------------------------------------------------------------------
 
