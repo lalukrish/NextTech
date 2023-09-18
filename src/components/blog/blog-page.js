@@ -8,9 +8,12 @@ import {
 } from '@mui/icons-material';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
 import MyPostCardModal from './blog-post-fullVIew-modal';
 
 const BlogPageResults = () => {
+  const navigate = useNavigate();
   const userid = localStorage.getItem('USER_ID');
   const userName = useSelector((state) => state.myprofile?.successMessage?.data?.user?.full_name);
 
@@ -106,6 +109,11 @@ const BlogPageResults = () => {
       handleLikePostApi();
     }
   };
+
+  const handleProfileRoute = () => {
+    navigate('/dashboard/user-profile');
+  };
+
   return (
     <>
       <MyPostCardModal modalOpen={modalOpen} handleModalClose={handleModalClose} postId={postId} />
@@ -116,6 +124,8 @@ const BlogPageResults = () => {
             <CardHeader
               avatar={<Avatar src={posts?.user?.profile_image_url} alt={post?.username} />}
               title={posts?.user?.user_name}
+              onClick={handleProfileRoute}
+              style={{ cursor: 'pointer' }}
             />
             <CardContent>
               <img src={posts?.image_url} alt="Post" style={{ width: '600px', maxHeight: '600px' }} />

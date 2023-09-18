@@ -15,6 +15,7 @@ import AddPost from './pages/AddPost';
 import MyCollection from './pages/MyCollection';
 import StartCareer from './pages/LatestYouGo';
 import LatestYouGo from './components/careers/latest-you-go';
+import UserProfilePage from './pages/userProfilePage';
 
 // ----------------------------------------------------------------------
 
@@ -36,9 +37,11 @@ export default function Router() {
         { path: 'my-collection', element: <MyCollection /> },
         // { path: 'blog', element: <BlogPage /> },
         { path: 'settings', element: <Settings /> },
+        { path: 'user-profile', element: <UserProfilePage /> },
       ],
     },
     { path: 'addpost', element: <AddPost /> },
+    // { path: 'user-profile', element: <UserProfilePage /> },
 
     {
       path: 'login',
