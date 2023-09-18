@@ -10,9 +10,6 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import MyPostCardModal from './blog-post-fullVIew-modal';
 
-
-
-
 const BlogPageResults = () => {
   const userid = localStorage.getItem('USER_ID');
   const userName = useSelector((state) => state.myprofile?.successMessage?.data?.user?.full_name);
@@ -116,7 +113,10 @@ const BlogPageResults = () => {
         {/* <Typography variant="h5">Posts</Typography> */}
         {post.map((posts) => (
           <Card style={{ marginBottom: '20px' }}>
-            <CardHeader avatar={<Avatar src={profileImage} alt={post?.username} />} title={userName} />
+            <CardHeader
+              avatar={<Avatar src={posts?.user?.profile_image_url} alt={post?.username} />}
+              title={posts?.user?.user_name}
+            />
             <CardContent>
               <img src={posts?.image_url} alt="Post" style={{ width: '600px', maxHeight: '600px' }} />
             </CardContent>

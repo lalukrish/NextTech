@@ -120,15 +120,14 @@ const MyPostCardModal = ({ modalOpen, handleModalClose, postId }) => {
   };
 
   const formatUpdatedTime = (updatedTime) => {
-  if (updatedTime) {
-    const formattedTime = format(parseISO(updatedTime), "MMMM d, yyyy h:mm a"); // Format includes time
-    return `${formattedTime}`;
-  }
-  return '';
-};
+    if (updatedTime) {
+      const formattedTime = format(parseISO(updatedTime), 'MMMM d, yyyy h:mm a'); // Format includes time
+      return `${formattedTime}`;
+    }
+    return '';
+  };
   const [replyText, setReplyText] = useState();
   const handleReplyComment = (commentId) => {
-   
     const replyData = {
       commentId,
       userId,
@@ -151,6 +150,7 @@ const MyPostCardModal = ({ modalOpen, handleModalClose, postId }) => {
           ...prevState,
           [commentId]: '', // Clear the reply text after posting
         }));
+        setReplyText('');
       })
       .catch((error) => {
         console.error('Error posting reply:', error);
@@ -158,57 +158,51 @@ const MyPostCardModal = ({ modalOpen, handleModalClose, postId }) => {
   };
 
   return (
-<div>
-  <Dialog
-    open={modalOpen}
-    onClose={handleCommentModalClose}
-    maxWidth="lg" // Set your desired modal width, e.g., lg for large
-    fullWidth // Make the modal take up the full width
-    aria-labelledby="modal-modal-title"
-    aria-describedby="modal-modal-description"
-  >
-    <DialogTitle id="modal-modal-title">
-      Posts
-    </DialogTitle>
-    <DialogContent>
-      <div style={{ display: 'flex' }}>
-        <Card style={{ flex: 1, marginRight: '20px' }}>
-          {' '}
-          <CardHeader
-            avatar={<Avatar src={profileImage} alt={post?.username} />}
-            title={userName}
-          />
-          <CardContent>
-            {post ? (
-              <>
-                <img
-                  src={post?.image_url}
-                  alt="Post"
-                  style={{ width: '100%', maxHeight: '600px' }}
-                />
-                <Typography>{post?.description}</Typography>
-              </>
-            ) : (
-              <p>No post to display</p>
-            )}
-          </CardContent>
-        </Card>
+    <div>
+      <Dialog
+        open={modalOpen}
+        onClose={handleCommentModalClose}
+        maxWidth="lg" // Set your desired modal width, e.g., lg for large
+        fullWidth // Make the modal take up the full width
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <DialogTitle id="modal-modal-title">Posts</DialogTitle>
+        <DialogContent>
+          <div style={{ display: 'flex' }}>
+            <Card style={{ flex: 1, marginRight: '20px' }}>
+              {' '}
+              <CardHeader
+                avatar={<Avatar src={post?.user?.profile_image_url} alt={post?.user?.user_name} />}
+                title={post?.user?.user_name}
+              />
+              <CardContent>
+                {post ? (
+                  <>
+                    <img src={post?.image_url} alt="Post" style={{ width: '100%', maxHeight: '600px' }} />
+                    <Typography>{post?.description}</Typography>
+                  </>
+                ) : (
+                  <p>No post to display</p>
+                )}
+              </CardContent>
+            </Card>
 
-        {/* Right Card for Comment Section */}
-        <Card style={{ flex: 1, maxHeight: '600px', overflowY: 'auto' }}>
-          <CardContent>
-            {/* Input field for adding comments */}
-            <TextField
-              fullWidth
-              variant="outlined"
-              label="Add a comment"
-              placeholder="Add a comment..."
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-            />
-            <Button variant="contained" color="primary" fullWidth onClick={handlePostComment}>
-              Post
-              </Button>
+            {/* Right Card for Comment Section */}
+            <Card style={{ flex: 1, maxHeight: '600px', overflowY: 'auto' }}>
+              <CardContent>
+                {/* Input field for adding comments */}
+                <TextField
+                  fullWidth
+                  variant="outlined"
+                  label="Add a comment"
+                  placeholder="Add a comment..."
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                />
+                <Button variant="contained" color="primary" fullWidth onClick={handlePostComment}>
+                  Post
+                </Button>
                 {comment.length === 0 ? (
                   <Typography>No comments to display</Typography>
                 ) : (
@@ -231,7 +225,7 @@ const MyPostCardModal = ({ modalOpen, handleModalClose, postId }) => {
                           />{' '}
                           {/* Reply icon */}
                         </IconButton>
-                         {formatUpdatedTime(comments.updatedAt)}
+                        {formatUpdatedTime(comments.updatedAt)}
                         {comments.replies.length > 0 && (
                           <>
                             <IconButton
@@ -284,15 +278,14 @@ const MyPostCardModal = ({ modalOpen, handleModalClose, postId }) => {
                   ))
                 )}
 
-            {/* Display existing comments here */}
-            {/* You can map through your comments and render them */}
-          </CardContent>
-        </Card>
-      </div>
-    </DialogContent>
-  </Dialog>
-</div>
-  
+                {/* Display existing comments here */}
+                {/* You can map through your comments and render them */}
+              </CardContent>
+            </Card>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 };
 
