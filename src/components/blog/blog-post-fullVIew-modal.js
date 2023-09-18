@@ -227,9 +227,15 @@ const MyPostCardModal = ({ modalOpen, handleModalClose, postId }) => {
                         {/* <Avatar src={comment.author.profileImage} alt={comment.author.username} /> */}
                         <Typography style={{ marginLeft: '10px' }}>{comments.author.username}</Typography>
                       </div>
+                      <CardHeader avatar={<Avatar src={profileImage} alt={post?.username} />} title={userName} />
                       <Typography>{comments.text}</Typography>
                       <div style={{ marginTop: '10px' }}>
+                      
+
+
+                      
                         <IconButton color="primary">
+                        
                           <FavoriteBorderOutlinedIcon /> {/* Like icon */}
                         </IconButton>
                         <IconButton color="secondary">
@@ -284,6 +290,9 @@ const MyPostCardModal = ({ modalOpen, handleModalClose, postId }) => {
                                 {/* <Avatar src={reply.author.profileImage} alt={reply.author.username} /> */}
                                 <Typography style={{ marginLeft: '10px' }}>{reply.author.username}</Typography>
                               </div>
+                              
+
+                              <CardHeader avatar={<Avatar src={profileImage} alt={post?.username} />} title={userName} />
                               <Typography sx={{ fontSize: '16px' }}>{reply.reply_text}</Typography>
                             </div>
                           ))}

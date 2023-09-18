@@ -1,16 +1,27 @@
-import React from 'react';
-import { Card, CardContent, Typography, Button, TextField, IconButton } from '@mui/material';
+import {React, useState} from 'react';
+import { Card, CardContent, Modal, Typography, Button, TextField, IconButton } from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import AddIcon from '@mui/icons-material/Add'; // Import the Add icon
 import WorkIcon from '@mui/icons-material/Work'; // Import the Work icon
 import BookIcon from '@mui/icons-material/Book'; // Import the Book icon
 
+
 import Avatar from '@mui/material/Avatar';
 
-import { useNavigate } from 'react-router-dom';
 
-const SimpleCard = () => {
-  const useHistory = useNavigate();
+
+
+  const SimpleCard = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+  
+    const openModal = () => {
+      setIsModalOpen(true);
+    };
+  
+    const closeModal = () => {
+      setIsModalOpen(false);
+    };
+  
   return (
     <div>
       <Card style={{ width: '100%', paddingTop: '25.25%', position: 'relative' }}>
@@ -65,13 +76,27 @@ const SimpleCard = () => {
                 VBook
               </Button>
 
-              <NotificationsIcon style={{ marginLeft: '200px', fontSize: '24px', color: 'blue' }} />
-              <Avatar alt="User Avatar" src="/avatar.jpg" sx={{ marginLeft: '10px' }} />
+              <NotificationsIcon
+              style={{ fontSize: '40px',marginLeft: '38px', color: 'blue', cursor: 'pointer' }}
+              onClick={openModal}
+            />
+            
+              <Avatar alt="User Avatar" src="/avatar.jpg" size="large" sx={{ marginLeft: '50px', weight: '70px', height: '50px' }} />
             </div>
           </div>
         </CardContent>
       </Card>
+      <Modal open={isModalOpen} onClose={closeModal}>
+        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', background: 'white', padding: '20px', outline: 'none' }}>
+          <Typography variant="h5">Notifications</Typography>
+          {/* Add your notification content here */}
+          <Button variant="contained" color="primary" onClick={closeModal}>
+            Close
+          </Button>
+        </div>
+      </Modal>
     </div>
+
   );
 };
 
