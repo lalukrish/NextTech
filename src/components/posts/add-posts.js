@@ -1,27 +1,62 @@
-import {React, useState} from 'react';
-import { Card, CardContent, Modal, Typography, Button, TextField, IconButton } from '@mui/material';
+import { React, useState, useRef } from 'react';
+import {
+  Card,
+  CardContent,
+  Modal,
+  Typography,
+  Button,
+  TextField,
+  IconButton,
+  Popper,
+  Paper,
+  List,
+  ListItem,
+  ListItemText,
+  Avatar,
+} from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import AddIcon from '@mui/icons-material/Add'; // Import the Add icon
 import WorkIcon from '@mui/icons-material/Work'; // Import the Work icon
 import BookIcon from '@mui/icons-material/Book'; // Import the Book icon
 
+import axios from 'axios';
 
-import Avatar from '@mui/material/Avatar';
+const SimpleCard = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
 
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
-
-  const SimpleCard = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-  
-    const openModal = () => {
-      setIsModalOpen(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const textFieldRef = useRef(null);
+  const handleSearch = () => {
+    const config = {
+      url: `${process.env.REACT_APP_NEXTTECH_DEV_URL}/admin/get-userby-username?user_name=${searchQuery}`,
+      method: 'get',
+      headers: {},
     };
-  
-    const closeModal = () => {
-      setIsModalOpen(false);
-    };
-  
+    axios(config)
+      .then((response) => {
+        const data = response.data.user_details;
+        setSearchResults(data);
+        setAnchorEl(textFieldRef.current); // Assuming you have an element with id 'search-input'
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  const handleClosePopper = () => {
+    // Close the Popper when clicking outside of it
+    setAnchorEl(null);
+  };
+
   return (
     <div>
       <Card style={{ width: '100%', paddingTop: '25.25%', position: 'relative' }}>
@@ -32,11 +67,28 @@ import Avatar from '@mui/material/Avatar';
                 variant="outlined"
                 label="Search"
                 style={{ width: '70%', marginRight: '10px', marginTop: '10px' }}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                inputRef={textFieldRef} // Assign the ref to the TextField
+                id="search-input"
               />
-              <Button variant="contained" color="primary">
+              <Button variant="contained" color="primary" onClick={handleSearch}>
                 Search
               </Button>
             </div>
+            {/* Display search results in a Popper */}
+            <Popper open={Boolean(anchorEl)} anchorEl={anchorEl} placement="bottom-start" onClose={handleClosePopper}>
+              <Paper style={{ width: textFieldRef.current?.offsetWidth }}>
+                <List>
+                  {searchResults.map((result) => (
+                    <ListItem key={result.user_name}>
+                      <Avatar alt={result.user_name} src={result.profile_image_url} />
+                      <ListItemText primary={result.user_name} secondary={result.role} />
+                    </ListItem>
+                  ))}
+                </List>
+              </Paper>
+            </Popper>
             <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
               <Button
                 variant="contained"
@@ -77,17 +129,32 @@ import Avatar from '@mui/material/Avatar';
               </Button>
 
               <NotificationsIcon
-              style={{ fontSize: '40px',marginLeft: '38px', color: 'blue', cursor: 'pointer' }}
-              onClick={openModal}
-            />
-            
-              <Avatar alt="User Avatar" src="/avatar.jpg" size="large" sx={{ marginLeft: '50px', weight: '70px', height: '50px' }} />
+                style={{ fontSize: '40px', marginLeft: '38px', color: 'blue', cursor: 'pointer' }}
+                onClick={openModal}
+              />
+
+              <Avatar
+                alt="User Avatar"
+                src="/avatar.jpg"
+                size="large"
+                sx={{ marginLeft: '50px', weight: '70px', height: '50px' }}
+              />
             </div>
           </div>
         </CardContent>
       </Card>
       <Modal open={isModalOpen} onClose={closeModal}>
-        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', background: 'white', padding: '20px', outline: 'none' }}>
+        <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            background: 'white',
+            padding: '20px',
+            outline: 'none',
+          }}
+        >
           <Typography variant="h5">Notifications</Typography>
           {/* Add your notification content here */}
           <Button variant="contained" color="primary" onClick={closeModal}>
@@ -96,7 +163,6 @@ import Avatar from '@mui/material/Avatar';
         </div>
       </Modal>
     </div>
-
   );
 };
 
