@@ -38,7 +38,7 @@ export default function AccountPopover(props) {
     });
   }, []);
 
-  const userName = useSelector((state) => state.myprofile?.successMessage?.data?.user?.full_name);
+  const userName = useSelector((state) => state.myprofile?.successMessage?.data?.user?.user_name);
   const userEmail = useSelector((state) => state.myprofile?.successMessage?.data?.user?.email);
   const userProfileImage = useSelector((state) => state.myprofilepic?.successMessage?.data?.data?.profile_image_url);
   const [profileImage, setProfileImage] = useState(userProfileImage);

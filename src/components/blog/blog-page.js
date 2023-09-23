@@ -8,14 +8,15 @@ import {
 } from '@mui/icons-material';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import MyPostCardModal from './blog-post-fullVIew-modal';
+import ProfilePage from '../user-profile/profilePage';
 
 const BlogPageResults = () => {
   const navigate = useNavigate();
   const userid = localStorage.getItem('USER_ID');
-  const userName = useSelector((state) => state.myprofile?.successMessage?.data?.user?.full_name);
+  const userName = useSelector((state) => state.myprofile?.successMessage?.data?.user?.user_name);
 
   const userProfileImage = useSelector((state) => state.myprofilepic?.successMessage?.data?.data?.profile_image_url);
   const [profileImage, setProfileImage] = useState(userProfileImage);
@@ -110,23 +111,32 @@ const BlogPageResults = () => {
     }
   };
 
-  const handleProfileRoute = () => {
+  const handleProfileRoute = (userId) => {
+    console.log('udsusds', userId);
+
     navigate('/dashboard/user-profile');
   };
 
   return (
     <>
       <MyPostCardModal modalOpen={modalOpen} handleModalClose={handleModalClose} postId={postId} />
+
       <div style={{ marginTop: 6 }}>
         {/* <Typography variant="h5">Posts</Typography> */}
         {post.map((posts) => (
           <Card style={{ marginBottom: '20px' }}>
-            <CardHeader
-              avatar={<Avatar src={posts?.user?.profile_image_url} alt={post?.username} />}
-              title={posts?.user?.user_name}
-              onClick={handleProfileRoute}
-              style={{ cursor: 'pointer' }}
-            />
+            <Link
+              to={`/dashboard/user-profile/${posts?.user?._id}`}
+              onClick={() => handleProfileRoute(posts?.user?._id)}
+              style={{ textDecoration: 'none', color: 'black' }}
+            >
+              <CardHeader
+                avatar={<Avatar src={posts?.user?.profile_image_url} alt={post?.username} />}
+                title={posts?.user?.user_name}
+                style={{ cursor: 'pointer' }}
+              />
+            </Link>
+
             <CardContent>
               <img src={posts?.image_url} alt="Post" style={{ width: '600px', maxHeight: '600px' }} />
             </CardContent>

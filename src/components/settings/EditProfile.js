@@ -1,4 +1,6 @@
 import { TextField, Button, Grid, Select, MenuItem } from '@mui/material';
+import InputLabel from '@mui/material/InputLabel'; // Import InputLabel
+
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import axios from 'axios';
@@ -29,6 +31,8 @@ const EditProfile = () => {
       {
         id,
         full_name: formikValues.full_name,
+        role: formikValues.role,
+        bio_information: formikValues.bio_information,
       },
       {
         headers: {
@@ -50,6 +54,8 @@ const EditProfile = () => {
       user_name: userData ? userData.user_name : '',
       phone_number: userData ? userData.phone_number : '',
       country_code: userData ? userData.country_code : '',
+      role: userData ? userData?.role : '',
+      bio_information: userData ? userData.bio_information : '',
     },
     onSubmit: async () => {
       console.log('submit');
@@ -93,7 +99,30 @@ const EditProfile = () => {
             disabled
           />
         </Grid>
-
+        <Grid item xs={12}>
+          {/* Label for the Role dropdown */}
+          <InputLabel htmlFor="role" shrink={!!formik.values.role}>
+            {formik.values.role ? 'Role' : 'Select your role'}
+          </InputLabel>
+          {/* Dropdown select for Role */}
+          <Select
+            id="role"
+            name="role"
+            value={formik.values?.role}
+            onChange={(event) => {
+              formik.handleChange(event); // Handle the change in Formik
+              console.log('va;lue', event.target.value); // Log the selected role
+            }}
+            fullWidth
+          >
+            <MenuItem value="">
+              <em>Select your role</em>
+            </MenuItem>
+            <MenuItem value="user">User</MenuItem>
+            <MenuItem value="Software Engineer">Software Engineer</MenuItem>
+            <MenuItem value="React Developer">React Developer</MenuItem>
+          </Select>
+        </Grid>
         <Grid item xs={3}>
           <Select
             name="country_code"
@@ -113,8 +142,18 @@ const EditProfile = () => {
             onChange={formik.handleChange}
             value={formik.values ? formik.values.phone_number : ''}
           />
+        </Grid>{' '}
+        <Grid item xs={12}>
+          <TextField
+            placeholder="Description"
+            name="bio_information"
+            fullWidth
+            onChange={formik.handleChange}
+            value={formik.values ? formik.values.bio_information : ''}
+            multiline
+            rows={4}
+          />
         </Grid>
-
         {/* ... Other fields */}
         <Grid item xs={12}>
           <Button variant="contained" color="primary" fullWidth sx={{ height: '50px' }} type="submit">

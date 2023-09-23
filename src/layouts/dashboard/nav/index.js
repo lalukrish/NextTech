@@ -51,7 +51,7 @@ export default function Nav({ openNav, onCloseNav }) {
     });
   }, []);
 
-  const userName = useSelector((state) => state.myprofile?.successMessage?.data?.user?.full_name);
+  const userName = useSelector((state) => state.myprofile?.successMessage?.data?.user?.user_name);
   console.log('userProfileDetails', userName);
   const { pathname } = useLocation();
 

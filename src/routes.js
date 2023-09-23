@@ -37,7 +37,7 @@ export default function Router() {
         { path: 'my-collection', element: <MyCollection /> },
         // { path: 'blog', element: <BlogPage /> },
         { path: 'settings', element: <Settings /> },
-        { path: 'user-profile', element: <UserProfilePage /> },
+        { path: 'user-profile/:userId', element: <UserProfilePage /> },
       ],
     },
     { path: 'addpost', element: <AddPost /> },

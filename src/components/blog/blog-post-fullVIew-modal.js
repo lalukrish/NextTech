@@ -40,9 +40,10 @@ const style = {
 };
 
 const MyPostCardModal = ({ modalOpen, handleModalClose, postId }) => {
+  console.log('postmodal,', postId);
   const userId = localStorage.getItem('USER_ID');
   console.log('post------>id', postId);
-  const userName = useSelector((state) => state.myprofile?.successMessage?.data?.user?.full_name);
+  const userName = useSelector((state) => state.myprofile?.successMessage?.data?.user?.user_name);
 
   const userProfileImage = useSelector((state) => state.myprofilepic?.successMessage?.data?.data?.profile_image_url);
   const [profileImage, setProfileImage] = useState(userProfileImage);
@@ -180,9 +181,8 @@ const MyPostCardModal = ({ modalOpen, handleModalClose, postId }) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <DialogTitle id="modal-modal-title">Posts</DialogTitle>
+        {/* <DialogTitle id="modal-modal-title">Posts</DialogTitle> */}
         <DialogContent>
-          <CardActions>{postLikes} Likes</CardActions>
           <div style={{ display: 'flex' }}>
             <Card style={{ flex: 1, marginRight: '20px' }}>
               {' '}
@@ -230,12 +230,7 @@ const MyPostCardModal = ({ modalOpen, handleModalClose, postId }) => {
                       <CardHeader avatar={<Avatar src={profileImage} alt={post?.username} />} title={userName} />
                       <Typography>{comments.text}</Typography>
                       <div style={{ marginTop: '10px' }}>
-                      
-
-
-                      
                         <IconButton color="primary">
-                        
                           <FavoriteBorderOutlinedIcon /> {/* Like icon */}
                         </IconButton>
                         <IconButton color="secondary">
@@ -290,9 +285,11 @@ const MyPostCardModal = ({ modalOpen, handleModalClose, postId }) => {
                                 {/* <Avatar src={reply.author.profileImage} alt={reply.author.username} /> */}
                                 <Typography style={{ marginLeft: '10px' }}>{reply.author.username}</Typography>
                               </div>
-                              
 
-                              <CardHeader avatar={<Avatar src={profileImage} alt={post?.username} />} title={userName} />
+                              <CardHeader
+                                avatar={<Avatar src={profileImage} alt={post?.username} />}
+                                title={userName}
+                              />
                               <Typography sx={{ fontSize: '16px' }}>{reply.reply_text}</Typography>
                             </div>
                           ))}

@@ -54,7 +54,7 @@ export default function Settings() {
       </Helmet>
 
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '1vh' }}>
-        <Card sx={{ width: '1150px', height: '600px', mt: '1px' }}>
+        <Card sx={{ width: '1150px', height: '700px', mt: '1px' }}>
           <Container maxWidth="sm">
             <a href="/dashboard/app">
               <ArrowBackIosNewIcon
